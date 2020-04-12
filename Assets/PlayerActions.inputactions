@@ -82,6 +82,52 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "Inventory",
+            "id": "66ad5227-55de-448d-b880-59160da5d3ed",
+            "actions": [
+                {
+                    "name": "MoveBarSelector",
+                    "type": "PassThrough",
+                    "id": "eedae05e-0251-44c5-a4c3-71fbbb5cb551",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ToggleInventory",
+                    "type": "Button",
+                    "id": "feb1f2e0-62be-4288-ac00-2049897614fb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d96b2bf2-be94-428e-852e-adcf7ba9704b",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveBarSelector",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "840f2935-db67-43bf-afdc-e1d9a556a362",
+                    "path": "<Keyboard>/#(E)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

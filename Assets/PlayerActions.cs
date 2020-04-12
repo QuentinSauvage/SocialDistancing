@@ -95,6 +95,52 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Inventory"",
+            ""id"": ""66ad5227-55de-448d-b880-59160da5d3ed"",
+            ""actions"": [
+                {
+                    ""name"": ""MoveBarSelector"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""eedae05e-0251-44c5-a4c3-71fbbb5cb551"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ToggleInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""feb1f2e0-62be-4288-ac00-2049897614fb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d96b2bf2-be94-428e-852e-adcf7ba9704b"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveBarSelector"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""840f2935-db67-43bf-afdc-e1d9a556a362"",
+                    ""path"": ""<Keyboard>/#(E)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -102,6 +148,10 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         // PlayerMovement
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
+        // Inventory
+        m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
+        m_Inventory_MoveBarSelector = m_Inventory.FindAction("MoveBarSelector", throwIfNotFound: true);
+        m_Inventory_ToggleInventory = m_Inventory.FindAction("ToggleInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -180,8 +230,54 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         }
     }
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+
+    // Inventory
+    private readonly InputActionMap m_Inventory;
+    private IInventoryActions m_InventoryActionsCallbackInterface;
+    private readonly InputAction m_Inventory_MoveBarSelector;
+    private readonly InputAction m_Inventory_ToggleInventory;
+    public struct InventoryActions
+    {
+        private @PlayerActions m_Wrapper;
+        public InventoryActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @MoveBarSelector => m_Wrapper.m_Inventory_MoveBarSelector;
+        public InputAction @ToggleInventory => m_Wrapper.m_Inventory_ToggleInventory;
+        public InputActionMap Get() { return m_Wrapper.m_Inventory; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(InventoryActions set) { return set.Get(); }
+        public void SetCallbacks(IInventoryActions instance)
+        {
+            if (m_Wrapper.m_InventoryActionsCallbackInterface != null)
+            {
+                @MoveBarSelector.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnMoveBarSelector;
+                @MoveBarSelector.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnMoveBarSelector;
+                @MoveBarSelector.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnMoveBarSelector;
+                @ToggleInventory.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
+                @ToggleInventory.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
+                @ToggleInventory.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
+            }
+            m_Wrapper.m_InventoryActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @MoveBarSelector.started += instance.OnMoveBarSelector;
+                @MoveBarSelector.performed += instance.OnMoveBarSelector;
+                @MoveBarSelector.canceled += instance.OnMoveBarSelector;
+                @ToggleInventory.started += instance.OnToggleInventory;
+                @ToggleInventory.performed += instance.OnToggleInventory;
+                @ToggleInventory.canceled += instance.OnToggleInventory;
+            }
+        }
+    }
+    public InventoryActions @Inventory => new InventoryActions(this);
     public interface IPlayerMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
+    }
+    public interface IInventoryActions
+    {
+        void OnMoveBarSelector(InputAction.CallbackContext context);
+        void OnToggleInventory(InputAction.CallbackContext context);
     }
 }
