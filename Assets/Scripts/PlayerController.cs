@@ -5,11 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] float _speed = 10;
+	Rigidbody2D _rigidbody2D;
 	PlayerActions _playerActions;
 	Vector2 _movementAction;
 
 	private void Awake()
 	{
+		_rigidbody2D = GetComponent<Rigidbody2D>();
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 	}
@@ -29,8 +31,9 @@ public class PlayerController : MonoBehaviour
 		float x = _movementAction.x * _speed * Time.deltaTime;
 		float y = _movementAction.y * _speed * Time.deltaTime;
 		Vector3 move = new Vector3(x, y, 0);
-		Debug.Log(move);
-		transform.position += move;
+		move += transform.position;
+
+		_rigidbody2D.MovePosition(move);
 	}
 
 	void OnEnable()
