@@ -963,9 +963,9 @@ MonoBehaviour:
   _barLenght: 10
   _uiBar: {fileID: 13843584}
   _uiSelector: {fileID: 127382561}
-  item0: {fileID: -6884256891737033057, guid: c83440fae432d0e46a3ca486953ad7dc, type: 3}
-  item1: {fileID: -1604700048565740763, guid: c83440fae432d0e46a3ca486953ad7dc, type: 3}
-  item2: {fileID: -759690321062003948, guid: c83440fae432d0e46a3ca486953ad7dc, type: 3}
+  item0: {fileID: -6884256891737033057, guid: 0f6f73e68926b5543be0b9df3883787c, type: 3}
+  item1: {fileID: -1604700048565740763, guid: 0f6f73e68926b5543be0b9df3883787c, type: 3}
+  item2: {fileID: -759690321062003948, guid: 0f6f73e68926b5543be0b9df3883787c, type: 3}
 --- !u!4 &1861604452
 Transform:
   m_ObjectHideFlags: 0
