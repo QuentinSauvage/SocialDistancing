@@ -23946,7 +23946,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 288
+        y: 269
         width: 32
         height: 32
       alignment: 0
@@ -24105,27 +24105,6 @@ TextureImporter:
       bones: []
       spriteID: 71f1fe5e51e326df0800000000000000
       internalID: -188519970623250665
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: '[Base]BaseChip_pipo_998'
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 256
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 030630e01d907d590800000000000000
-      internalID: -7649634648577581008
       vertices: []
       indices: 
       edges: []
