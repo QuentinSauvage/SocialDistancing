@@ -8,7 +8,10 @@ using UnityEditor;
 [CreateAssetMenu(menuName ="Items/Database",order =-1)]
 public class ItemDatabase : ScriptableObject
 {
-    [SerializeField] private Dictionary<string, Item> _database;
+    [System.Serializable]
+    internal class ItemDictionnary : SerializableDictionary<string, Item> { }
+
+    [SerializeField] private ItemDictionnary _database = ItemDictionnary.New<ItemDictionnary>();
 
     /*
      * Get IItem by its id, returns null if the id is not used
@@ -17,7 +20,7 @@ public class ItemDatabase : ScriptableObject
     {
         try
         {
-            return _database[id];
+            return _database.dictionary[id];
         }catch(KeyNotFoundException)
         {
             return null;
@@ -29,7 +32,7 @@ public class ItemDatabase : ScriptableObject
     [ContextMenu("Fill")]
     public void Fill()
     {
-        _database = new Dictionary<string, Item>();
+        _database.dictionary.Clear();
 
         Debug.Log(typeof(Item).Name);
 
@@ -39,34 +42,13 @@ public class ItemDatabase : ScriptableObject
             Item item = AssetDatabase.LoadAssetAtPath<Item>(AssetDatabase.GUIDToAssetPath(guid));
             try
             {           
-                _database.Add(item.ID, item);
+                _database.dictionary.Add(item.ID, item);
             }catch(System.ArgumentException)
             {
                 Debug.LogError($"{item.Name}'s id({item.ID} is already used");
             }
         }
     }
-
-    [CustomEditor(typeof(ItemDatabase))]
-    public class ItemDatabaseEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            Debug.Log("non");
-
-            Dictionary<string, Item> dictionary = ((ItemDatabase)target)._database;
-            if (dictionary == null) return;
-            Debug.Log("gre");
-
-            foreach (Item item in dictionary.Values)
-            {
-                Debug.Log("oui");
-                EditorGUILayout.LabelField(item.Name);
-            }
-        }
-    }
-
-
 #endif
 }
 

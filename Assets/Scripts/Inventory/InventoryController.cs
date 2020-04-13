@@ -5,30 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-/*********** DEBUG ITEM FOR TESTING *****************/
-
-class DebugItem : Item
-{
-    public string Name { get { return name; } }
-
-    public Sprite Icon{ get { return icon; } }
-
-    public string ID { get { return id; } }
-
-    private string name;
-    private Sprite icon;
-    private string id;
-
-    public DebugItem(string n, Sprite t) { name = n; icon = t; }
-
-    public override void DoAction()
-    {
-        throw new NotImplementedException();
-    }
-}
-
-/************** END DEBUG ITEM *********************/
-
 
 public class InventoryController : MonoBehaviour
 {
@@ -47,12 +23,14 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private GameObject _pslot;
     private PlayerActions _playerActions;
 
-    private Stack _selectedStack = null;
+    private Stack _selectedStack;
 
     //*************** INVENTORY *****************\\
 
     //Logic
     [SerializeField] private Vector2 _inventorySize;
+
+    [SerializeField] private int _maxItemPerStack;
 
     //UI
     [SerializeField] private RectTransform _uiInventory;
@@ -60,7 +38,7 @@ public class InventoryController : MonoBehaviour
 
     private List<InventorySlot> _inventorySlots;
 
-    private float _inventorySlotSize;
+    //private float _inventorySlotSize;
 
     //*************** BAR ***************\\
     
@@ -80,10 +58,10 @@ public class InventoryController : MonoBehaviour
 
     private List<InventorySlot> _barSlots;
 
-    private float _barSlotSize;
+    //private float _barSlotSize;
 
     [Header("DEBUG")]
-    public Sprite item0, item1, item2;
+    public ItemDatabase itemDatabase;
 
 
     void Awake()
@@ -92,6 +70,7 @@ public class InventoryController : MonoBehaviour
         Debug.Assert(_pslot != null, "Inventory need a slot prefab");
         Debug.Assert(_uiBar != null, "Inventory need its bar");
         Debug.Assert(_uiSelector != null, "Inventory Bar need a selector");
+        Debug.Assert(_maxItemPerStack != 0, "max item per stack not set");
 
         _playerActions = new PlayerActions();
         _playerActions.Inventory.MoveBarSelector.performed += UpdateSelectorPosition;
@@ -99,27 +78,52 @@ public class InventoryController : MonoBehaviour
         _barSlots = new List<InventorySlot>(_barLenght);
         _inventorySlots = new List<InventorySlot>((int)(_inventorySize.x * _inventorySize.y));
 
-        
+
+        _selectedStack = new Stack();
+
         _idSelected = 0;
     }
+
+#if UNITY_EDITOR
 
     [ContextMenu("Populate")]
     void DebugPopulate()
     {
-        DebugItem di0 = new DebugItem("Item0",item0);
+        /*DebugItem di0 = new DebugItem("Item0",item0);
         DebugItem di1 = new DebugItem("Item1", item1);
-        DebugItem di2 = new DebugItem("Item2", item2);
+        DebugItem di2 = new DebugItem("Item2", item2);*/
 
-        _barSlots[3].stack._item = di0; _barSlots[3].stack._nbItem = 5; _barSlots[3].UpdateSlot();
-        _inventorySlots[0].stack._item = di1; _inventorySlots[0].stack._nbItem = 1; _inventorySlots[0].UpdateSlot();
-        _inventorySlots[10].stack._item = di2; _inventorySlots[10].stack._nbItem = 111; _inventorySlots[10].UpdateSlot();
-        _inventorySlots[22].stack._item = di2; _inventorySlots[22].stack._nbItem = 3; _inventorySlots[22].UpdateSlot();
+        Debug.Log("Populating the inventory");
+
+        _barSlots[3].stack._item = itemDatabase.GetItemByID("vegetable_salad"); _barSlots[3].stack._nbItem = 80; _barSlots[3].UpdateSlot();
+        _inventorySlots[0].stack._item = itemDatabase.GetItemByID("vegetable_pumpkin"); _inventorySlots[0].stack._nbItem = 99; _inventorySlots[0].UpdateSlot();
+        _inventorySlots[10].stack._item = itemDatabase.GetItemByID("fish_salmon"); ; _inventorySlots[10].stack._nbItem = 99; _inventorySlots[10].UpdateSlot();
+        _inventorySlots[22].stack._item = itemDatabase.GetItemByID("vegetable_salad"); _inventorySlots[22].stack._nbItem = 50; _inventorySlots[22].UpdateSlot();
+        _inventorySlots[33].stack._item = itemDatabase.GetItemByID("vegetable_pumpkin"); _inventorySlots[33].stack._nbItem = 50; _inventorySlots[33].UpdateSlot();
+
     }
 
+    [ContextMenu("Add 50 pumpkins")]
+    void Add50Pumpkin()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"),50);
+    }
+    [ContextMenu("Add 99 pumpkins")]
+    void Add99Pumpkin()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 99);
+    }
+    [ContextMenu("Add 10 pumpkins")]
+    void Add10Pumpkin()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 10);
+    }
+
+#endif
     void Start()
     {
-        /***************** BAR ***********************/
-        _barSlotSize = _uiBar.rect.width / _barLenght ;
+        //***************** BAR ***********************\\
+        //_barSlotSize = _uiBar.rect.width / _barLenght ;
 
         for (int i = 0; i < _barLenght; ++i)
         {
@@ -128,16 +132,16 @@ public class InventoryController : MonoBehaviour
             _barSlots.Add(slot.GetComponent<InventorySlot>());
             _barSlots[i].clicked = SlotClicked;
             _barSlots[i].stack = new Stack();
-            _barSlots[i].RectTransform.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
+           // _barSlots[i].RectTransform.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
         }
 
 
-        _uiSelector.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
+        //_uiSelector.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
 
-        /****************** INVENTORY ***********************/
-        _inventorySlotSize = _uiInventory.rect.width / _inventorySize.x- _inventorySize.x * 0.5f;
-        _inventoryLayout.cellSize = new Vector2(_inventorySlotSize, _inventorySlotSize);
+        //****************** INVENTORY ***********************\\
+        //_inventorySlotSize = _uiInventory.rect.width / _inventorySize.x- _inventorySize.x * 0.5f;
+        //_inventoryLayout.cellSize = new Vector2(_inventorySlotSize, _inventorySlotSize);
         for (int i = 0; i < _inventorySize.x* _inventorySize.y; ++i)
         {
             GameObject slot = Instantiate(_pslot, _uiInventory);
@@ -145,8 +149,68 @@ public class InventoryController : MonoBehaviour
             _inventorySlots.Add(slot.GetComponent<InventorySlot>());
             _inventorySlots[i].clicked = SlotClicked;
             _inventorySlots[i].stack = new Stack();
-            _inventorySlots[i].RectTransform.sizeDelta = new Vector2(_inventorySlotSize, _inventorySlotSize);
+           // _inventorySlots[i].RectTransform.sizeDelta = new Vector2(_inventorySlotSize, _inventorySlotSize);
         }
+    }
+
+    //return 0 if ok, the number of item that could'nt be added else
+    private int AddItemToSlot(Item item, int nbItem, InventorySlot slot)
+    {
+        if (slot.stack._nbItem + nbItem > _maxItemPerStack)
+        {
+            int rest = slot.stack._nbItem + nbItem - _maxItemPerStack;
+            slot.stack._nbItem = _maxItemPerStack;
+            slot.UpdateSlot();
+            return rest;
+        }
+        else
+        {
+            slot.stack._nbItem += nbItem;
+            slot.UpdateSlot();
+            return 0;
+        }
+    }
+
+    /*** callabable method to add or remove item ***/
+
+    /// <summary>return 0 if ok, the number of item that could'nt be added else</summary>
+    public int AddItem(Item item, int nbItem)
+    {
+        foreach (InventorySlot slot in _inventorySlots)
+        {
+            if(slot.stack._nbItem == 0)
+            {
+                slot.stack._item = item;
+                if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
+                else continue;
+            }
+            else
+            {
+                if(slot.stack._item == item)
+                {
+                    if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
+                    else continue;
+                }
+            }
+        }
+        foreach (InventorySlot slot in _barSlots)
+        {
+            if (slot.stack._nbItem == 0)
+            {
+                slot.stack._item = item;
+                if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
+                else continue;
+            }
+            else
+            {
+                if (slot.stack._item == item)
+                {
+                    if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
+                    else continue;
+                }
+            }
+        }
+        return nbItem;
     }
 
     private void UpdateSelectorPosition(InputAction.CallbackContext context)
@@ -174,12 +238,14 @@ public class InventoryController : MonoBehaviour
 
     private void UpdateMouseCursor()
     {
-        if(_selectedStack != null)
+        if(_selectedStack != null &&_selectedStack._nbItem!=0)
         {
             Sprite icon = _selectedStack._item.Icon;
             Texture2D texture = new Texture2D((int)icon.textureRect.width, (int)icon.textureRect.height);
             texture.SetPixels(icon.texture.GetPixels((int)icon.textureRect.x, (int)icon.textureRect.y, (int)icon.textureRect.width, (int)icon.textureRect.height));
             texture.Apply();
+            /*texture.Resize((int)_inventoryLayout.cellSize.x, (int)_inventoryLayout.cellSize.y);
+            texture.Apply();*/
             Cursor.SetCursor(texture, Vector2.zero, CursorMode.Auto);
         }
         else
@@ -188,33 +254,65 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void SlotClicked(InventorySlot slot)
+    /*** Inventory transfer methods ***/
+
+    private void TransferItemFromSelectedStack(InventorySlot slot, int nbItem)
     {
-        if(_selectedStack == null)
+        if (slot.stack._nbItem + nbItem > _maxItemPerStack)
         {
-            if (slot.stack._nbItem == 0) return;
-            _selectedStack = slot.stack;
-            slot.stack = new Stack();
+            int rest = slot.stack._nbItem + nbItem - _maxItemPerStack;
+            slot.stack._nbItem = _maxItemPerStack;
+            _selectedStack._nbItem = rest;
         }
         else
         {
-            if(slot.stack._nbItem == 0)
-            {
-                slot.stack = _selectedStack;
-                _selectedStack = null;
-            }
+            slot.stack._nbItem += nbItem;
+            _selectedStack._nbItem -= nbItem; 
+        }
+    }
+
+    private void TransferItemToSelectedStack(InventorySlot slot, int nbItem)
+    {
+        _selectedStack._item = slot.stack._item;
+        _selectedStack._nbItem = nbItem;
+        slot.stack._nbItem -= nbItem;
+    }
+
+    private void SwapSelectedStack(InventorySlot slot)
+    {
+        Stack tmp = slot.stack;
+        slot.stack = _selectedStack;
+        _selectedStack = tmp;
+    }
+
+    private void SetItemFromSelectedStack(InventorySlot slot, int nbItem)
+    {
+        slot.stack._item = _selectedStack._item;
+        slot.stack._nbItem = nbItem;
+        _selectedStack._nbItem -= nbItem;
+    }
+
+    private void SlotClicked(InventorySlot slot, UnityEngine.EventSystems.PointerEventData clickEvent)
+    {
+        if(_selectedStack == null ||_selectedStack._nbItem==0)
+        {
+            if (slot.stack._nbItem == 0) return;
+            TransferItemToSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left?slot.stack._nbItem:slot.stack._nbItem/2));
+        }
+        else
+        {
+            if (slot.stack._nbItem == 0)
+                SetItemFromSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
             else
             {
-                if(slot.stack._item == _selectedStack._item)
+                if (slot.stack._item != _selectedStack._item)
                 {
-                    slot.stack._nbItem += _selectedStack._nbItem;
-                    _selectedStack = null;
+                    if (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Right) return;
+                    SwapSelectedStack(slot);
                 }
                 else
                 {
-                    Stack tmp = _selectedStack;
-                    _selectedStack = slot.stack;
-                    slot.stack = tmp;
+                    TransferItemFromSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
                 }
             }
         }
@@ -223,6 +321,8 @@ public class InventoryController : MonoBehaviour
         UpdateMouseCursor();
 
     }
+
+    /*** end inventory transfer methods ***/
 
     void OnEnable()
     {

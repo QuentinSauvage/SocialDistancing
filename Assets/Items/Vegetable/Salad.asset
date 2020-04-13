@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7de8d56e5c70ec54e9959367c7e853dc, type: 3}
   m_Name: Salad
   m_EditorClassIdentifier: 
-  _name: 
-  _icon: {fileID: 0}
-  _id: 
+  _name: Salad
+  _icon: {fileID: 6105127484610634250, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  _id: vegetable_salad
   price: 0

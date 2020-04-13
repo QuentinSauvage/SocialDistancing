@@ -7,7 +7,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public InventoryController.Stack stack;
 
-    public delegate void Clicked(InventorySlot slot);
+    public delegate void Clicked(InventorySlot slot, PointerEventData clickEvent);
     public Clicked clicked;
 
     [SerializeField]
@@ -46,7 +46,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        clicked(this);
+        clicked(this,eventData);
     }
 
     public void UpdateSlot()

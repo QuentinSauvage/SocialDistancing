@@ -12,3 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f9dcd0afbce6848b7bc54681b7f4f8, type: 3}
   m_Name: ItemDatabase
   m_EditorClassIdentifier: 
+  _database:
+    keys:
+    - fish_salmon
+    - vegetable_pumpkin
+    - vegetable_salad
+    values:
+    - {fileID: 11400000, guid: 3c20dbbf985eda0488c92e242151cf3c, type: 2}
+    - {fileID: 11400000, guid: 50331a42a411b1c4ca9920e082423b89, type: 2}
+    - {fileID: 11400000, guid: fc5c5ef15921c5c4da61ad9fa234c5bf, type: 2}
