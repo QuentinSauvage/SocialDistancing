@@ -49,7 +49,7 @@ public class TimeManager : MonoBehaviour
 			else
 			{
 				_minute = 0;
-				if(_hour < 24)
+				if(_hour < 23)
 				{
 					++_hour;
 				}
@@ -85,7 +85,7 @@ public class TimeManager : MonoBehaviour
 		else if (_hour >= 12)
 		{
 			float tLerp = ((_hour - 12) * 60 + _minute) / (6 * 60);
-			_light.intensity = Mathf.Lerp(_middayIntensity, 1, tLerp);
+			_light.intensity = Mathf.Lerp(_middayIntensity, 1.1f, tLerp);
 			_light.color = Color.Lerp(_middayColor, _duskColor, tLerp);
 		}
 		// dawn - midday
