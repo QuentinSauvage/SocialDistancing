@@ -1,0 +1,25 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class Item :  ScriptableObject
+{
+    [SerializeField] protected string _name;
+    [SerializeField] protected Sprite _icon;
+    [SerializeField] protected string _id;
+
+    public string Name { get { return _name; } }
+
+    public Sprite Icon { get { return _icon; } }
+
+    public string ID { get { return _id; } }
+
+#if UNITY_EDITOR
+    protected void OnValidate()
+    {
+        _id = (GetType().Name + "_" + _name).ToLower();
+    }
+#endif
+
+    public abstract void DoAction();
+}

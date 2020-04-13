@@ -7,16 +7,24 @@ using UnityEngine.UI;
 
 /*********** DEBUG ITEM FOR TESTING *****************/
 
-class DebugItem : IItem
+class DebugItem : Item
 {
     public string Name { get { return name; } }
 
     public Sprite Icon{ get { return icon; } }
 
+    public string ID { get { return id; } }
+
     private string name;
     private Sprite icon;
+    private string id;
 
     public DebugItem(string n, Sprite t) { name = n; icon = t; }
+
+    public override void DoAction()
+    {
+        throw new NotImplementedException();
+    }
 }
 
 /************** END DEBUG ITEM *********************/
@@ -26,7 +34,7 @@ public class InventoryController : MonoBehaviour
 {
     public class Stack
     {
-        public IItem _item;
+        public Item _item;
         public int _nbItem;
 
         public Stack()

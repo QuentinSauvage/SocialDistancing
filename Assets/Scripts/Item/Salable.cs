@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IItem
+public abstract class  Salable : Item
 {
-    string Name { get; }
-    Sprite Icon { get; }
+    [SerializeField] protected float price;
 }
