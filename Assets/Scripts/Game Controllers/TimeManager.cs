@@ -25,7 +25,7 @@ public class TimeManager : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		_hour = 0;
+		_hour = 6;
 		_minute = 0;
 		_elapsedTime = 0;
 		_idleUI.SetActive(false);
