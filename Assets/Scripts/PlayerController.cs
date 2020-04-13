@@ -6,9 +6,19 @@ public class PlayerController : MonoBehaviour
 {
 	[SerializeField] float _speed = 10;
 	Rigidbody2D _rigidbody2D;
-	PlayerActions _playerActions;
 	Animator _animator;
+
+	// Inputs of the player
+	PlayerActions _playerActions;
+	// Receives the movement inputs from the player
 	Vector2 _movementAction;
+	
+	// Time elapsed since the player is idle
+	float _idleTimer;
+	// Is the idle UI displayed?
+	bool _idle;
+
+	TimeManager _timeManager;
 
 	private void Awake()
 	{
@@ -16,6 +26,12 @@ public class PlayerController : MonoBehaviour
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 		_animator = GetComponent<Animator>();
+
+		_idleTimer = 0;
+		_idle = false;
+
+		GameObject gameController = GameObject.Find("GameController");
+		_timeManager = gameController.GetComponent<TimeManager>();
 	}
 
 	void Start()
@@ -34,18 +50,42 @@ public class PlayerController : MonoBehaviour
 		float y = _movementAction.y * _speed * Time.deltaTime;
 		Vector3 move = new Vector3(x, y, 0);
 
-		if(y != 0)
+		// idle
+		if(y == 0 && x == 0)
 		{
-			_animator.SetFloat("MoveX", 0);
-			_animator.SetFloat("MoveY", y);
+			if(!_idle)
+			{
+				_idleTimer += Time.deltaTime;
+				if(_idleTimer > 2)
+				{
+					_idle = true;
+					_timeManager.DisplayTime();
+				}
+			}
 		}
-		else if(x != 0)
+		else
 		{
-			_animator.SetFloat("MoveX", x);
-			_animator.SetFloat("MoveY", 0);
+			if(_idle)
+			{
+				_idle = false;
+				_timeManager.HideTime();
+			}
+			//vertical move
+			if (y != 0)
+			{
+				_animator.SetFloat("MoveX", 0);
+				_animator.SetFloat("MoveY", y);
+				_idleTimer = 0;
+			}
+			// horizontal move 
+			else
+			{
+				_animator.SetFloat("MoveX", x);
+				_animator.SetFloat("MoveY", 0);
+				_idleTimer = 0;
+			}
 		}
 		_animator.SetFloat("Speed", move.magnitude);
-		Debug.Log(move.magnitude);
 		move += transform.position;
 
 		_rigidbody2D.MovePosition(move);
