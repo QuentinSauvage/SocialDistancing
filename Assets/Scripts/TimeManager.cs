@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class TimeManager : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class TimeManager : MonoBehaviour
 	// Idle UI
 	[SerializeField] GameObject _idleUI;
 	[SerializeField] TextMeshProUGUI _timerText;
+	[SerializeField] Light2D _light;
+	[SerializeField] Color _midnightColor;
+	[SerializeField] Color _middayColor;
+	[SerializeField] Color _dawnColor;
+	[SerializeField] Color _duskColor;
+	[SerializeField] float _middayIntensity;
 
 	// Start is called before the first frame update
 	void Start()
@@ -24,6 +31,7 @@ public class TimeManager : MonoBehaviour
 		_idleUI.SetActive(false);
 
 		UpdateText();
+		UpdateSunLight();
 	}
 
 	// Update is called once per frame
@@ -53,6 +61,7 @@ public class TimeManager : MonoBehaviour
 			_elapsedTime = 0;
 
 			UpdateText();
+			UpdateSunLight();
 		}
 		
 	}
@@ -62,6 +71,36 @@ public class TimeManager : MonoBehaviour
 		_timerText.text = (_hour >= 10) ? _hour.ToString("F0") : '0' + _hour.ToString("F0");
 		_timerText.text += ":";
 		_timerText.text += (_minute >= 10) ? _minute.ToString("F0") : '0' + _minute.ToString("F0");
+	}
+
+	void UpdateSunLight()
+	{
+		// dusk - midnight
+		if (_hour >= 18)
+		{
+			float tLerp = ((_hour - 18) * 60 + _minute) / (6 * 60);
+			_light.color = Color.Lerp(_duskColor, _midnightColor, tLerp);
+		}
+		// midday - dusk
+		else if (_hour >= 12)
+		{
+			float tLerp = ((_hour - 12) * 60 + _minute) / (6 * 60);
+			_light.intensity = Mathf.Lerp(_middayIntensity, 1, tLerp);
+			_light.color = Color.Lerp(_middayColor, _duskColor, tLerp);
+		}
+		// dawn - midday
+		else if (_hour >= 6)
+		{
+			float tLerp = ((_hour - 6) * 60 + _minute) / (6 * 60);
+			_light.intensity = Mathf.Lerp(1, _middayIntensity, tLerp);
+			_light.color = Color.Lerp(_dawnColor, _middayColor, tLerp);
+		}
+		// midnight - dawn
+		else
+		{
+			float tLerp = (_hour * 60 + _minute) / (6 * 60);
+			_light.color = Color.Lerp(_midnightColor, _dawnColor, tLerp);
+		}
 	}
 
 	public void DisplayTime()
