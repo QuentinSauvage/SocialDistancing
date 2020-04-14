@@ -29,17 +29,6 @@ public class @PlayerActions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""b57352c8-804a-4685-adf0-48343488f715"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""WASD"",
                     ""id"": ""ef16ea1c-d6fe-43fb-aacf-96c4f1375bea"",
                     ""path"": ""2DVector"",
@@ -141,6 +130,33 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerAction"",
+            ""id"": ""eef7055c-3624-40e7-8246-619303b82373"",
+            ""actions"": [
+                {
+                    ""name"": ""DefaultAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""8eca532c-1702-48f7-ba44-87f0a29d87fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""a785815c-486e-4473-adaa-460e66381393"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DefaultAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -152,6 +168,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_MoveBarSelector = m_Inventory.FindAction("MoveBarSelector", throwIfNotFound: true);
         m_Inventory_ToggleInventory = m_Inventory.FindAction("ToggleInventory", throwIfNotFound: true);
+        // PlayerAction
+        m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
+        m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -271,6 +290,39 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         }
     }
     public InventoryActions @Inventory => new InventoryActions(this);
+
+    // PlayerAction
+    private readonly InputActionMap m_PlayerAction;
+    private IPlayerActionActions m_PlayerActionActionsCallbackInterface;
+    private readonly InputAction m_PlayerAction_DefaultAction;
+    public struct PlayerActionActions
+    {
+        private @PlayerActions m_Wrapper;
+        public PlayerActionActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DefaultAction => m_Wrapper.m_PlayerAction_DefaultAction;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerActionActions set) { return set.Get(); }
+        public void SetCallbacks(IPlayerActionActions instance)
+        {
+            if (m_Wrapper.m_PlayerActionActionsCallbackInterface != null)
+            {
+                @DefaultAction.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+                @DefaultAction.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+                @DefaultAction.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+            }
+            m_Wrapper.m_PlayerActionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @DefaultAction.started += instance.OnDefaultAction;
+                @DefaultAction.performed += instance.OnDefaultAction;
+                @DefaultAction.canceled += instance.OnDefaultAction;
+            }
+        }
+    }
+    public PlayerActionActions @PlayerAction => new PlayerActionActions(this);
     public interface IPlayerMovementActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -279,5 +331,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     {
         void OnMoveBarSelector(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
+    }
+    public interface IPlayerActionActions
+    {
+        void OnDefaultAction(InputAction.CallbackContext context);
     }
 }
