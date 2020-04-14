@@ -5,4 +5,6 @@ using UnityEngine;
 public abstract class  Salable : Item
 {
     [SerializeField] protected float price;
+
+    public override bool IsSalable { get { return true; } }
 }

@@ -22,15 +22,15 @@ public class InventoryController : MonoBehaviour
     // prefab of slot
     [SerializeField] private GameObject _pslot;
     private PlayerActions _playerActions;
+    [SerializeField] public static int MAX_ITEM_PER_STACK=99;
 
     private Stack _selectedStack;
 
     //*************** INVENTORY *****************\\
 
     //Logic
-    [SerializeField] private Vector2 _inventorySize;
+    /*[SerializeField] private Vector2 _inventorySize;
 
-    [SerializeField] private int _maxItemPerStack;
 
     //UI
     [SerializeField] private RectTransform _uiInventory;
@@ -38,45 +38,112 @@ public class InventoryController : MonoBehaviour
 
     private List<InventorySlot> _inventorySlots;
 
-    //private float _inventorySlotSize;
+    //private float _inventorySlotSize;*/
+    [SerializeField] InventoryElement _inventory; //12*5
 
     //*************** BAR ***************\\
-    
+
     //Logic
-    [SerializeField] private int _barLenght;
+    /*[SerializeField] private int _barLenght;*/
 
     private int _idSelected;
     public int SlotSelected { get { return _idSelected; } }
 
     private double _lastSelectorUpdate = 0;
 
-    //private List<Stack> _bar;
+    /*private List<Stack> _bar;
 
     //UI
-    [SerializeField] private RectTransform _uiBar;
+    [SerializeField] private RectTransform _uiBar;*/
     [SerializeField] private RectTransform _uiSelector;
 
-    private List<InventorySlot> _barSlots;
+    //private List<InventorySlot> _barSlots;
 
     //private float _barSlotSize;
+    [SerializeField] InventoryElement _bar;
 
+#if UNITY_EDITOR
     [Header("DEBUG")]
     public ItemDatabase itemDatabase;
 
+    [ContextMenu("Add 50 pumpkins")]
+    void Add50Pumpkins()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"),50);
+    }
+    [ContextMenu("Add 99 pumpkins")]
+    void Add99Pumpkins()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 99);
+    }
+    [ContextMenu("Add 10 pumpkins")]
+    void Add10Pumpkins()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 10);
+    }
+
+    [ContextMenu("Add 50 salads")]
+    void Add50Salads()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_salad"), 50);
+    }
+    [ContextMenu("Add 99 salads")]
+    void Add99Salads()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_salad"), 99);
+    }
+    [ContextMenu("Add 10 salads")]
+    void Add10Salads()
+    {
+        AddItem(itemDatabase.GetItemByID("vegetable_salad"), 10);
+    }
+
+    [ContextMenu("Count Salads")]
+    void CountSalads()
+    {
+        Debug.Log($"there is {Count(itemDatabase.GetItemByID("vegetable_salad"))} salad in the inventory");
+    }
+    [ContextMenu("Count pumpkins")]
+    void CountPumpkins()
+    {
+        Debug.Log($"there is {Count(itemDatabase.GetItemByID("vegetable_pumpkin"))} pumpkin in the inventory");
+    }
+
+    [ContextMenu("Check Salad")]
+    void CheckSalad()
+    {
+        if (Contains(itemDatabase.GetItemByID("vegetable_salad")))
+        {
+            Debug.Log("theres is salad in the inventory");
+        }
+        else
+            Debug.Log("there is no salad in the inventory");
+    }
+
+    [ContextMenu("Remove 25 salads")]
+    void Remove25salads()
+    {
+        Debug.Log("remove return: "+RemoveItem(itemDatabase.GetItemByID("vegetable_salad"), 25));
+    }
+    [ContextMenu("Remove 20 pumpkins")]
+    void Remove20pumpkins()
+    {
+        Debug.Log("remove return: " + RemoveItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 20));
+    }
+#endif
 
     void Awake()
     {
-        Debug.Assert(_barLenght != 0, "Inventory Bar can't have 0 as lenght");
         Debug.Assert(_pslot != null, "Inventory need a slot prefab");
-        Debug.Assert(_uiBar != null, "Inventory need its bar");
         Debug.Assert(_uiSelector != null, "Inventory Bar need a selector");
-        Debug.Assert(_maxItemPerStack != 0, "max item per stack not set");
+        Debug.Assert(MAX_ITEM_PER_STACK != 0, "max item per stack not set");
 
         _playerActions = new PlayerActions();
         _playerActions.Inventory.MoveBarSelector.performed += UpdateSelectorPosition;
         _playerActions.Inventory.ToggleInventory.performed += ToggleInventory;
-        _barSlots = new List<InventorySlot>(_barLenght);
-        _inventorySlots = new List<InventorySlot>((int)(_inventorySize.x * _inventorySize.y));
+
+        _bar.Start(_pslot, SlotClicked);
+        _inventory.Start(_pslot, SlotClicked);
 
 
         _selectedStack = new Stack();
@@ -84,133 +151,73 @@ public class InventoryController : MonoBehaviour
         _idSelected = 0;
     }
 
-#if UNITY_EDITOR
-
-    [ContextMenu("Populate")]
-    void DebugPopulate()
-    {
-        /*DebugItem di0 = new DebugItem("Item0",item0);
-        DebugItem di1 = new DebugItem("Item1", item1);
-        DebugItem di2 = new DebugItem("Item2", item2);*/
-
-        Debug.Log("Populating the inventory");
-
-        _barSlots[3].stack._item = itemDatabase.GetItemByID("vegetable_salad"); _barSlots[3].stack._nbItem = 80; _barSlots[3].UpdateSlot();
-        _inventorySlots[0].stack._item = itemDatabase.GetItemByID("vegetable_pumpkin"); _inventorySlots[0].stack._nbItem = 99; _inventorySlots[0].UpdateSlot();
-        _inventorySlots[10].stack._item = itemDatabase.GetItemByID("fish_salmon"); ; _inventorySlots[10].stack._nbItem = 99; _inventorySlots[10].UpdateSlot();
-        _inventorySlots[22].stack._item = itemDatabase.GetItemByID("vegetable_salad"); _inventorySlots[22].stack._nbItem = 50; _inventorySlots[22].UpdateSlot();
-        _inventorySlots[33].stack._item = itemDatabase.GetItemByID("vegetable_pumpkin"); _inventorySlots[33].stack._nbItem = 50; _inventorySlots[33].UpdateSlot();
-
-    }
-
-    [ContextMenu("Add 50 pumpkins")]
-    void Add50Pumpkin()
-    {
-        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"),50);
-    }
-    [ContextMenu("Add 99 pumpkins")]
-    void Add99Pumpkin()
-    {
-        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 99);
-    }
-    [ContextMenu("Add 10 pumpkins")]
-    void Add10Pumpkin()
-    {
-        AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 10);
-    }
-
-#endif
     void Start()
     {
-        //***************** BAR ***********************\\
-        //_barSlotSize = _uiBar.rect.width / _barLenght ;
-
-        for (int i = 0; i < _barLenght; ++i)
-        {
-            GameObject slot = Instantiate(_pslot, _uiBar);
-
-            _barSlots.Add(slot.GetComponent<InventorySlot>());
-            _barSlots[i].clicked = SlotClicked;
-            _barSlots[i].stack = new Stack();
-           // _barSlots[i].RectTransform.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
-        }
-
-
-        //_uiSelector.sizeDelta = new Vector2(_barSlotSize, _barSlotSize);
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
-
-        //****************** INVENTORY ***********************\\
-        //_inventorySlotSize = _uiInventory.rect.width / _inventorySize.x- _inventorySize.x * 0.5f;
-        //_inventoryLayout.cellSize = new Vector2(_inventorySlotSize, _inventorySlotSize);
-        for (int i = 0; i < _inventorySize.x* _inventorySize.y; ++i)
-        {
-            GameObject slot = Instantiate(_pslot, _uiInventory);
-
-            _inventorySlots.Add(slot.GetComponent<InventorySlot>());
-            _inventorySlots[i].clicked = SlotClicked;
-            _inventorySlots[i].stack = new Stack();
-           // _inventorySlots[i].RectTransform.sizeDelta = new Vector2(_inventorySlotSize, _inventorySlotSize);
-        }
-    }
-
-    //return 0 if ok, the number of item that could'nt be added else
-    private int AddItemToSlot(Item item, int nbItem, InventorySlot slot)
-    {
-        if (slot.stack._nbItem + nbItem > _maxItemPerStack)
-        {
-            int rest = slot.stack._nbItem + nbItem - _maxItemPerStack;
-            slot.stack._nbItem = _maxItemPerStack;
-            slot.UpdateSlot();
-            return rest;
-        }
-        else
-        {
-            slot.stack._nbItem += nbItem;
-            slot.UpdateSlot();
-            return 0;
-        }
     }
 
     /*** callabable method to add or remove item ***/
 
-    /// <summary>return 0 if ok, the number of item that could'nt be added else</summary>
+    /// <summary>
+    /// Add item to the inventory. Return nb of item that couldn't be added. Update the UI.
+    /// </summary>
+    /// <param name="item">Item to be added</param>
+    /// <param name="nbItem">nbItem to be added</param>
     public int AddItem(Item item, int nbItem)
     {
-        foreach (InventorySlot slot in _inventorySlots)
-        {
-            if(slot.stack._nbItem == 0)
-            {
-                slot.stack._item = item;
-                if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
-                else continue;
-            }
-            else
-            {
-                if(slot.stack._item == item)
-                {
-                    if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
-                    else continue;
-                }
-            }
-        }
-        foreach (InventorySlot slot in _barSlots)
-        {
-            if (slot.stack._nbItem == 0)
-            {
-                slot.stack._item = item;
-                if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
-                else continue;
-            }
-            else
-            {
-                if (slot.stack._item == item)
-                {
-                    if ((nbItem = AddItemToSlot(item, nbItem, slot)) == 0) return 0;
-                    else continue;
-                }
-            }
-        }
+        nbItem = _inventory.AddItem(item, nbItem);
+
+        nbItem = _bar.AddItem(item, nbItem);
+
         return nbItem;
+    }
+
+    /// <summary>
+    /// Remove item from the inventory. Return nb of item that couldn't be removed. Update the UI.
+    /// </summary>
+    /// <param name="item">Item to be removed</param>
+    /// <param name="nbItem">nbItem to be removed</param>
+    public int RemoveItem(Item item, int nbItem)
+    {
+        nbItem = _inventory.RemoveItem(item, nbItem);
+
+        nbItem = _bar.RemoveItem(item, nbItem);
+
+        return nbItem;
+    }
+
+    /// <summary>
+    /// Remove item from the slot selectionned in the bar. Update the ui. /!\ doesn't test if there is an item in the slot selected.
+    /// </summary>
+    /// <param name="nbItem">nbItem to be removed</param>
+    public void RemoveItemFromBarSelected(int nbItem)
+    {
+        _bar.Slot(_idSelected).RemoveItemFromSlot(nbItem);
+    }
+
+    /// <summary>
+    /// Check if the inventory or the bar contains an item
+    /// </summary>
+    /// <param name="item">item to be tested</param>
+    /// <returns>true if it contains the item, false else</returns>
+    public bool Contains(Item item)
+    {
+        return _inventory.Contains(item) || _bar.Contains(item);
+    }
+
+    /// <summary>
+    /// Count how many items are countained by the inventory
+    /// </summary>
+    /// <param name="item">Item to be counted</param>
+    /// <returns>how many item there is in the inventory</returns>
+    public int Count(Item item)
+    {
+        return _bar.Count(item) + _inventory.Count(item);
+    }
+
+    private void ToggleInventory(InputAction.CallbackContext context)
+    {
+        _inventory.IsVisible = !_inventory.IsVisible;
     }
 
     private void UpdateSelectorPosition(InputAction.CallbackContext context)
@@ -222,18 +229,13 @@ public class InventoryController : MonoBehaviour
         else
             _idSelected--;
 
-        _idSelected = Mathf.Clamp(_idSelected, 0, _barLenght - 1);
+        _idSelected = Mathf.Clamp(_idSelected, 0, _bar.Size - 1);
         UpdateSelectorPosition();
-    }
-
-    private void ToggleInventory(InputAction.CallbackContext context)
-    {
-        _uiInventory.gameObject.SetActive(!_uiInventory.gameObject.activeInHierarchy);
     }
 
     private void UpdateSelectorPosition()
     {
-        _uiSelector.position = _barSlots[_idSelected].RectTransform.position;
+        _uiSelector.position = _bar.Position(_idSelected).position;
     }
 
     private void UpdateMouseCursor()
@@ -241,7 +243,7 @@ public class InventoryController : MonoBehaviour
         if(_selectedStack != null &&_selectedStack._nbItem!=0)
         {
             Sprite icon = _selectedStack._item.Icon;
-            Texture2D texture = new Texture2D((int)icon.textureRect.width, (int)icon.textureRect.height);
+            Texture2D texture = new Texture2D((int)icon.textureRect.width, (int)icon.textureRect.height,TextureFormat.RGBA32,false);
             texture.SetPixels(icon.texture.GetPixels((int)icon.textureRect.x, (int)icon.textureRect.y, (int)icon.textureRect.width, (int)icon.textureRect.height));
             texture.Apply();
             /*texture.Resize((int)_inventoryLayout.cellSize.x, (int)_inventoryLayout.cellSize.y);
@@ -254,75 +256,34 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    /*** Inventory transfer methods ***/
-
-    private void TransferItemFromSelectedStack(InventorySlot slot, int nbItem)
-    {
-        if (slot.stack._nbItem + nbItem > _maxItemPerStack)
-        {
-            int rest = slot.stack._nbItem + nbItem - _maxItemPerStack;
-            slot.stack._nbItem = _maxItemPerStack;
-            _selectedStack._nbItem = rest;
-        }
-        else
-        {
-            slot.stack._nbItem += nbItem;
-            _selectedStack._nbItem -= nbItem; 
-        }
-    }
-
-    private void TransferItemToSelectedStack(InventorySlot slot, int nbItem)
-    {
-        _selectedStack._item = slot.stack._item;
-        _selectedStack._nbItem = nbItem;
-        slot.stack._nbItem -= nbItem;
-    }
-
-    private void SwapSelectedStack(InventorySlot slot)
-    {
-        Stack tmp = slot.stack;
-        slot.stack = _selectedStack;
-        _selectedStack = tmp;
-    }
-
-    private void SetItemFromSelectedStack(InventorySlot slot, int nbItem)
-    {
-        slot.stack._item = _selectedStack._item;
-        slot.stack._nbItem = nbItem;
-        _selectedStack._nbItem -= nbItem;
-    }
-
     private void SlotClicked(InventorySlot slot, UnityEngine.EventSystems.PointerEventData clickEvent)
     {
         if(_selectedStack == null ||_selectedStack._nbItem==0)
         {
-            if (slot.stack._nbItem == 0) return;
-            TransferItemToSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left?slot.stack._nbItem:slot.stack._nbItem/2));
+            if (slot._stack._nbItem == 0) return;
+            slot.TransferItemToStack(_selectedStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left?slot._stack._nbItem:slot._stack._nbItem/2));
         }
         else
         {
-            if (slot.stack._nbItem == 0)
-                SetItemFromSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
+            if (slot._stack._nbItem == 0)
+                slot.SetItemFromStack(_selectedStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
             else
             {
-                if (slot.stack._item != _selectedStack._item)
+                if (slot._stack._item != _selectedStack._item)
                 {
                     if (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Right) return;
-                    SwapSelectedStack(slot);
+                    slot.SwapStack(_selectedStack);
                 }
                 else
                 {
-                    TransferItemFromSelectedStack(slot, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
+                    slot.TransferItemFromStack(_selectedStack, clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1);
                 }
             }
         }
 
-        slot.UpdateSlot();
         UpdateMouseCursor();
 
     }
-
-    /*** end inventory transfer methods ***/
 
     void OnEnable()
     {

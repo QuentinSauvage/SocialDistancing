@@ -14,6 +14,8 @@ public abstract class Item :  ScriptableObject
 
     public string ID { get { return _id; } }
 
+    public virtual bool IsSalable { get { return false; } }
+
 #if UNITY_EDITOR
     protected void OnValidate()
     {

@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
-    public InventoryController.Stack stack;
+    public InventoryController.Stack _stack;
 
     public delegate void Clicked(InventorySlot slot, PointerEventData clickEvent);
-    public Clicked clicked;
+    public Clicked _clicked;
 
     [SerializeField]
     private RectTransform _transform;
@@ -34,6 +34,100 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _background.color = _color;
     }
 
+    /// <summary>
+    /// Transfer item from stack to this slot. Update the slot in ui.
+    /// </summary>
+    /// <param name="stack">stack from where the item are taken</param>
+    /// <param name="nbItem">nb item to transfer</param>
+    public void TransferItemFromStack(InventoryController.Stack stack, int nbItem)
+    {
+        if (_stack._nbItem + nbItem > InventoryController.MAX_ITEM_PER_STACK)
+        {
+            int rest = _stack._nbItem + nbItem - InventoryController.MAX_ITEM_PER_STACK;
+            _stack._nbItem = InventoryController.MAX_ITEM_PER_STACK;
+            stack._nbItem = rest;
+        }
+        else
+        {
+            _stack._nbItem += nbItem;
+            stack._nbItem -= nbItem;
+        }
+        UpdateSlot();
+    }
+
+    /// <summary>
+    /// Transfer item from slot to stack. Update the slot in ui.
+    /// </summary>
+    /// <param name="stack">stack where the item are transfered</param>
+    /// <param name="nbItem">nb item to transfer</param>
+    public void TransferItemToStack(InventoryController.Stack stack, int nbItem)
+    {
+        stack._item = _stack._item;
+        stack._nbItem = nbItem;
+        _stack._nbItem -= nbItem;
+        UpdateSlot();
+    }
+
+    /// <summary>
+    /// Swap stack content with the stack from this slot. Update the ui.
+    /// </summary>
+    /// <param name="stack">stack to swap with</param>
+    public void SwapStack(InventoryController.Stack stack)
+    {
+        Item item = _stack._item; int nbItem = _stack._nbItem; 
+        _stack._item = stack._item; _stack._nbItem = stack._nbItem;
+        stack._item = item; stack._nbItem = nbItem;
+        UpdateSlot();
+    }
+
+    /// <summary>
+    /// Transfer item from stack to this slot and set the item in this slot. Update the ui.
+    /// </summary>
+    public void SetItemFromStack(InventoryController.Stack stack, int nbItem)
+    {
+        _stack._item = stack._item;
+        _stack._nbItem = nbItem;
+        stack._nbItem -= nbItem;
+        UpdateSlot();
+    }
+
+    /// <summary>
+    /// Add item to slot with item already setted. Update the ui.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="nbItem"></param>
+    /// <returns>nb item taht couldn't be added. Can be 0.</returns>
+    public int AddItemToSlot(int nbItem)
+    {
+        if (_stack._nbItem + nbItem > InventoryController.MAX_ITEM_PER_STACK)
+        {
+            int rest = _stack._nbItem + nbItem - InventoryController.MAX_ITEM_PER_STACK;
+            _stack._nbItem = InventoryController.MAX_ITEM_PER_STACK;
+            UpdateSlot();
+            return rest;
+        }
+        else
+        {
+            _stack._nbItem += nbItem;
+            UpdateSlot();
+            return 0;
+        }
+    }
+
+    /// <summary>
+    /// remove item from the Update the ui.
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="nbItem"></param>
+    /// <returns>nb item taht couldn't be removed. Can be 0.</returns>
+    public int RemoveItemFromSlot(int nbItem)
+    {
+        int rest = _stack._nbItem - nbItem;
+        _stack._nbItem = Mathf.Clamp(rest, 0, InventoryController.MAX_ITEM_PER_STACK);
+        UpdateSlot();
+        return Mathf.Clamp(rest, -InventoryController.MAX_ITEM_PER_STACK, 0) * -1;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         _background.color = _selectedColor;
@@ -46,15 +140,15 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        clicked(this,eventData);
+        _clicked(this,eventData);
     }
 
     public void UpdateSlot()
     {
-        if (stack._nbItem != 0)
+        if (_stack._nbItem != 0)
         {
-            _image.sprite = stack._item.Icon;
-            _nb.text = stack._nbItem.ToString();
+            _image.sprite = _stack._item.Icon;
+            _nb.text = _stack._nbItem.ToString();
             _image.gameObject.SetActive(true);
             _nb.gameObject.SetActive(true);
         }
