@@ -6,21 +6,51 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class TimeManager : MonoBehaviour
 {
+	//************** START TIME HANDLING **************\\
+	
 	// Current hour in the game
 	private float _hour;
 	// Current minute in the game
 	private float _minute;
+	// Time since last in-game minute
 	private float _elapsedTime;
+	[SerializeField] private float _secondDuration = 3;
 
+	private static float MIDNIGHT = 0;
+	private static float DAWN = 6;
+	private static float MIDDAY = 14;
+	private static float DUSK = 20;
+
+	[Header("Time Handling")]
 	// Idle UI
-	[SerializeField] GameObject _idleUI;
-	[SerializeField] TextMeshProUGUI _timerText;
-	[SerializeField] Light2D _light;
-	[SerializeField] Color _midnightColor;
-	[SerializeField] Color _middayColor;
-	[SerializeField] Color _dawnColor;
-	[SerializeField] Color _duskColor;
-	[SerializeField] float _middayIntensity;
+	[SerializeField] private GameObject _idleUI;
+	// Hour displayed on the screen
+	[SerializeField] private TextMeshProUGUI _timerText;
+
+	//************** END TIME HANDLING **************\\
+
+
+	//************** START LIGHT HANDLING **************\\
+	[Header("Light Handling")]
+	// Global light of the game
+	[SerializeField] private Light2D _light;
+
+	// Day/Night colors
+	[SerializeField] DaySegment[] _daySegments = new DaySegment[4];
+
+	//************** END LIGHT HANDLING **************\\
+
+
+	//************** START WEATHER HANDLING **************\\
+
+	[Header("Weather Handling")]
+	private ParticleSystem _weatherSystem;
+	private int _currentWeather;
+	[SerializeField] private List<Weather> _weathers;
+	[SerializeField] private float _weatherIntensity;
+	private float _weatherTimer;
+
+	//************** END WEATHER HANDLING **************\\
 
 	// Start is called before the first frame update
 	void Start()
@@ -28,7 +58,13 @@ public class TimeManager : MonoBehaviour
 		_hour = 6;
 		_minute = 0;
 		_elapsedTime = 0;
+		_weatherIntensity = 0;
 		_idleUI.SetActive(false);
+
+		_weatherSystem = GetComponent<ParticleSystem>();
+		_weatherSystem.Stop();
+		_currentWeather = 0;
+		_weatherTimer = 0;
 
 		UpdateText();
 		UpdateSunLight();
@@ -39,8 +75,21 @@ public class TimeManager : MonoBehaviour
     {
 		_elapsedTime += Time.deltaTime;
 
+		if(_currentWeather != 0)
+		{
+			_weatherTimer += Time.deltaTime;
+			if(_weatherTimer > _weatherSystem.main.duration)
+			{
+				_currentWeather = 0;
+				_weatherSystem.Stop();
+				_weatherIntensity = 0;
+				_weatherTimer = 0;
+				CheckWeatherChanges();
+			}
+		}
+
 		// 3 real seconds = 1 minute
-		if(_elapsedTime >= 3)
+		if(_elapsedTime >= _secondDuration)
 		{
 			if(_minute < 60)
 			{
@@ -48,6 +97,7 @@ public class TimeManager : MonoBehaviour
 			}
 			else
 			{
+				CheckWeatherChanges();
 				_minute = 0;
 				if(_hour < 23)
 				{
@@ -66,50 +116,81 @@ public class TimeManager : MonoBehaviour
 		
 	}
 
-	void UpdateText()
+	//Update the hours and minutes displayed on the idle UI
+	private void UpdateText()
 	{
 		_timerText.text = (_hour >= 10) ? _hour.ToString("F0") : '0' + _hour.ToString("F0");
 		_timerText.text += ":";
 		_timerText.text += (_minute >= 10) ? _minute.ToString("F0") : '0' + _minute.ToString("F0");
 	}
 
-	void UpdateSunLight()
+	//Update the color and the intensity of the global light, according to the time of the day
+	private void UpdateSunLight()
 	{
 		// dusk - midnight
-		if (_hour >= 18)
+		if (_hour >= DUSK)
 		{
-			float tLerp = ((_hour - 18) * 60 + _minute) / (6 * 60);
-			_light.color = Color.Lerp(_duskColor, _midnightColor, tLerp);
+			float tLerp = ((_hour - _daySegments[2].Hour) * 60 + _minute) / (4 * 60);
+			_light.intensity = Mathf.Lerp(_daySegments[2].Intensity - _weatherIntensity, _daySegments[3].Intensity - _weatherIntensity / 2, tLerp);
+			_light.color = Color.Lerp(_daySegments[2].Color, _daySegments[3].Color, tLerp);
 		}
 		// midday - dusk
-		else if (_hour >= 12)
+		else if (_hour >= MIDDAY)
 		{
-			float tLerp = ((_hour - 12) * 60 + _minute) / (6 * 60);
-			_light.intensity = Mathf.Lerp(_middayIntensity, 1.1f, tLerp);
-			_light.color = Color.Lerp(_middayColor, _duskColor, tLerp);
+			float tLerp = ((_hour - _daySegments[1].Hour) * 60 + _minute) / (6 * 60);
+			_light.intensity = Mathf.Lerp(_daySegments[1].Intensity - _weatherIntensity, _daySegments[2].Intensity - _weatherIntensity, tLerp);
+			_light.color = Color.Lerp(_daySegments[1].Color, _daySegments[2].Color, tLerp);
 		}
 		// dawn - midday
-		else if (_hour >= 6)
+		else if (_hour >= DAWN)
 		{
-			float tLerp = ((_hour - 6) * 60 + _minute) / (6 * 60);
-			_light.intensity = Mathf.Lerp(1, _middayIntensity, tLerp);
-			_light.color = Color.Lerp(_dawnColor, _middayColor, tLerp);
+			float tLerp = ((_hour - _daySegments[0].Hour) * 60 + _minute) / (8 * 60);
+			_light.intensity = Mathf.Lerp(_daySegments[0].Intensity - _weatherIntensity / 2, _daySegments[1].Intensity - _weatherIntensity, tLerp);
+			_light.color = Color.Lerp(_daySegments[0].Color, _daySegments[1].Color, tLerp);
 		}
 		// midnight - dawn
 		else
 		{
-			float tLerp = (_hour * 60 + _minute) / (6 * 60);
-			_light.color = Color.Lerp(_midnightColor, _dawnColor, tLerp);
+			float tLerp = ((_hour - _daySegments[3].Hour) * 60 + _minute) / (6 * 60);
+			_light.intensity = Mathf.Lerp(_daySegments[3].Intensity - _weatherIntensity / 2, _daySegments[0].Intensity - _weatherIntensity, tLerp);
+			_light.color = Color.Lerp(_daySegments[3].Color, _daySegments[0].Color, tLerp);
 		}
 	}
 
+	// Displays the idle UI
 	public void DisplayTime()
 	{
 		_idleUI.SetActive(true);
 	}
 
+	// Hides the idle UI
 	public void HideTime()
 	{
 		_idleUI.SetActive(false);
+	}
+
+	// Checks if the weather should change, and if so, modify the weather system
+	// Return true if the weather changes
+	private bool CheckWeatherChanges()
+	{
+		float currentProba = 0;
+		for(int i = 1; i < _weathers.Count; ++i)
+		{
+			int weatherCheck = Random.Range(0, 100);
+			if (weatherCheck - currentProba < _weathers[i].Probability)
+			{
+				_currentWeather = i;
+				_weatherIntensity = _weathers[i].Intensity;
+
+				//the new weather should last from 2 hours to 10 hours
+				float weatherDuration = Random.Range(_secondDuration * 120, _secondDuration * 600);
+				ParticleSystem.MainModule main = _weatherSystem.main;
+				main.duration = weatherDuration;
+				_weatherSystem.Play();
+				return true;
+			}
+			currentProba += _weathers[i].Probability;
+		}
+		return false;
 	}
 }
