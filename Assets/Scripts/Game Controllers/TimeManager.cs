@@ -6,8 +6,14 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class TimeManager : MonoBehaviour
 {
+	//************** START AMBIENT MUSIC **************\\
+	private AudioSource _audioSource;
+	[SerializeField] private AudioClip[] _ambientMusics = new AudioClip[8];
+
+	//************** END AMBIENT MUSIC **************\\
+
 	//************** START TIME HANDLING **************\\
-	
+
 	// Current hour in the game
 	private float _hour;
 	// Current minute in the game
@@ -52,6 +58,11 @@ public class TimeManager : MonoBehaviour
 
 	//************** END WEATHER HANDLING **************\\
 
+	private void Awake()
+	{
+		_audioSource = gameObject.AddComponent<AudioSource>();
+	}
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -66,6 +77,7 @@ public class TimeManager : MonoBehaviour
 		_currentWeather = 0;
 		_weatherTimer = 0;
 
+		UpdateCurrentMusic();
 		UpdateText();
 		UpdateSunLight();
 	}
@@ -107,6 +119,7 @@ public class TimeManager : MonoBehaviour
 				{
 					_hour = 0;
 				}
+				UpdateCurrentMusic();
 			}
 			_elapsedTime = 0;
 
@@ -192,5 +205,18 @@ public class TimeManager : MonoBehaviour
 			currentProba += _weathers[i].Probability;
 		}
 		return false;
+	}
+
+	// Checks if the day section has changed, and if so, plays the next music
+	private void UpdateCurrentMusic()
+	{
+		// The music changes every 3 hours
+		if(Mathf.Approximately(_hour % 3, 0))
+		{
+			int daySection = (int)(_hour / 3.0f);
+			_audioSource.Stop();
+			_audioSource.clip = _ambientMusics[daySection];
+			_audioSource.Play();
+		}
 	}
 }
