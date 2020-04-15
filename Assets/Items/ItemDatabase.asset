@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _database:
     keys:
+    - bait_worm
+    - fish_goldensalmon
     - fish_salmon
     - vegetable_pumpkin
     - vegetable_salad
     values:
+    - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
+    - {fileID: 11400000, guid: 4e0baed6c32447143907c3581cb8f049, type: 2}
     - {fileID: 11400000, guid: 3c20dbbf985eda0488c92e242151cf3c, type: 2}
     - {fileID: 11400000, guid: 50331a42a411b1c4ca9920e082423b89, type: 2}
     - {fileID: 11400000, guid: fc5c5ef15921c5c4da61ad9fa234c5bf, type: 2}

@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(TimeManager), typeof(FishManager), typeof(GardenManager), typeof(ShopManager))]
+//[RequireComponent(typeof(TimeManager), typeof(GardenManager), typeof(ShopManager))]
 public class GameController : MonoBehaviour
 {
 	PlayerController _playerController;
 	TimeManager _timeManager;
 	InventoryController _inventoryController;
 	TileManager _tileManager;
-	//FishManager _fishManager;
-	//GardenManager _gardenManager;
-	//ShopManager _shopManager;
+    //GardenManager _gardenManager;
+    //ShopManager _shopManager;
+
+    [SerializeField] FishingController _fishingController;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +37,13 @@ public class GameController : MonoBehaviour
 
 		// Retrieves the tile manager
 		_tileManager = GetComponent<TileManager>();
-	}
+
+        //listen to the events
+        _fishingController._hookEvent.AddListener((Fish.FishRarity rarity) => { Debug.Log($"need hooking for {rarity.ToString()}");/**need player animation and sound*/ });
+        _fishingController._succesEvent.AddListener((Fish fish) => { Debug.Log($"Success fishing the {fish.Name}"); _inventoryController.AddItem(fish, 1); });
+        _fishingController._failEvent.AddListener(() => { Debug.Log($"Didn't hook at time or hook to soon"); /**need sad animation and sound**/ });
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -63,4 +71,12 @@ public class GameController : MonoBehaviour
 		_tileManager.CheckAction(target, hit, null);
 		//_tileManager.CheckAction(target, hit, _inventoryController.StackSelected._item) ;
 	}
+
+    /// <summary>
+    /// Called by TileManagerEvent, manage the fishing actions
+    /// </summary>
+    public void FishAction()
+    {
+        _fishingController.ActionPressed(this);
+    }
 }

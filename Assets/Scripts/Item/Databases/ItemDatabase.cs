@@ -34,11 +34,8 @@ public class ItemDatabase : ScriptableObject
     {
         _database.dictionary.Clear();
 
-        Debug.Log(typeof(Item).Name);
-
         foreach (string guid in AssetDatabase.FindAssets("t:Item", new string[]{"Assets/Items"}))
         {
-            Debug.Log(guid);
             Item item = AssetDatabase.LoadAssetAtPath<Item>(AssetDatabase.GUIDToAssetPath(guid));
             try
             {           

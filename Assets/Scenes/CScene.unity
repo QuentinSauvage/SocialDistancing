@@ -3227,6 +3227,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad14bff15628c2438e9876242b3886e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishingController:
+    _fishDatabase: {fileID: 11400000, guid: d74feca69eddac54ebbdb8bcb3fc17cc, type: 2}
+    _hookEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    _succesEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    _failEvent:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!199 &588211541
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7961,6 +7972,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21473e7ef85d99347af068d92c569954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishingEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 588211540}
+        m_MethodName: FishAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _gardentEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _openDoorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _readBoardEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _chopTreeEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &774469060
 GameObject:
   m_ObjectHideFlags: 0
@@ -12696,7 +12733,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272071185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1, z: -10}
+  m_LocalPosition: {x: -3.16187, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

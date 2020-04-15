@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEditor;
+using UnityEngine.Events;
 
 public class TileManager : MonoBehaviour
 {
 	private List<Tilemap> _tilemaps = new List<Tilemap>();
 	private Dictionary<string, System.Action> _actions = new Dictionary<string, System.Action>();
+
+    public UnityEvent _fishingEvent, _gardentEvent, _openDoorEvent, _readBoardEvent, _chopTreeEvent;
 
 	// Start is called before the first frame update
 	void Awake()
@@ -53,25 +55,30 @@ public class TileManager : MonoBehaviour
 	void DoFishing()
 	{
 		Debug.Log("I love fishing");
+        _fishingEvent.Invoke();
 	}
 
 	void DoGardening()
 	{
 		Debug.Log("I love vegetables");
+        _gardentEvent.Invoke();
 	}
 
 	void OpenDoor()
 	{
 		Debug.Log("I have no keys");
+        _openDoorEvent.Invoke();
 	}
 
 	void ReadBoard()
 	{
 		Debug.Log("I can't read");
+        _readBoardEvent.Invoke();
 	}
 
 	void ChopTree()
 	{
 		Debug.Log("This tree is very specular");
+        _chopTreeEvent.Invoke();
 	}
 }

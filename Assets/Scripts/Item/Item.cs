@@ -19,7 +19,8 @@ public abstract class Item :  ScriptableObject
 #if UNITY_EDITOR
     protected void OnValidate()
     {
-        _id = (GetType().Name + "_" + _name).ToLower();
+        _id = (GetType().Name + "_" + _name.Trim()).ToLower();
+        _id = System.Text.RegularExpressions.Regex.Replace(_id, @"\s+", "");
     }
 #endif
 
