@@ -9,6 +9,8 @@ public class TimeManager : MonoBehaviour
 	//************** START AMBIENT MUSIC **************\\
 	private AudioSource _audioSource;
 	[SerializeField] private AudioClip[] _ambientMusics = new AudioClip[8];
+	private float _transitionTimer;
+	private bool _bTransition;
 
 	//************** END AMBIENT MUSIC **************\\
 
@@ -61,6 +63,8 @@ public class TimeManager : MonoBehaviour
 	private void Awake()
 	{
 		_audioSource = gameObject.AddComponent<AudioSource>();
+		_transitionTimer = 0;
+		_bTransition = false;
 	}
 
 	// Start is called before the first frame update
@@ -86,6 +90,10 @@ public class TimeManager : MonoBehaviour
 	void Update()
     {
 		_elapsedTime += Time.deltaTime;
+		if(_bTransition)
+		{
+			_transitionTimer += Time.deltaTime;
+		}
 
 		if(_currentWeather != 0)
 		{
@@ -103,9 +111,16 @@ public class TimeManager : MonoBehaviour
 		// 3 real seconds = 1 minute
 		if(_elapsedTime >= _secondDuration)
 		{
-			if(_minute < 60)
+			if(_minute < 59)
 			{
 				++_minute;
+
+				// Checks if the music should decrease before changing
+				if(_minute == 50 && (_hour + 1) % 3 == 0)
+				{
+					_bTransition = true;
+					StartCoroutine("FadeOutMusic");
+				}
 			}
 			else
 			{
@@ -230,5 +245,29 @@ public class TimeManager : MonoBehaviour
 		{
 			_audioSource.UnPause();
 		}
+	}
+
+	IEnumerator FadeOutMusic()
+	{
+		while(_transitionTimer < _secondDuration * 10.0f)
+		{
+			_audioSource.volume = Mathf.Lerp(0, 1, ((10.0f * _secondDuration) - _transitionTimer) / (_secondDuration * 10.0f));
+			yield return new WaitForSeconds(0.1f);
+		}
+
+		_transitionTimer = 0;
+		StartCoroutine("FadeInMusic");
+	}
+
+	IEnumerator FadeInMusic()
+	{
+		while (_transitionTimer < _secondDuration * 10.0f)
+		{
+			_audioSource.volume = Mathf.Lerp(1, 0, ((10.0f * _secondDuration) - _transitionTimer) / (_secondDuration * 10.0f));
+			yield return new WaitForSeconds(0.1f);
+		}
+
+		_bTransition = false;
+		_transitionTimer = 0;
 	}
 }
