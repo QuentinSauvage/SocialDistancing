@@ -14,6 +14,7 @@ public class FishingController
 {
     [SerializeField] private FishDatabase _fishDatabase;
 
+    public UnityEvent _beginEvent;
     public HookEvent _hookEvent;
     public SuccessEvent _succesEvent;
     public UnityEvent _failEvent;
@@ -43,6 +44,7 @@ public class FishingController
 
     private IEnumerator Fishing(bool isRainig, int hour, Bait bait)
     {
+        _beginEvent.Invoke();
         _fishing = true;
         _fishDatabase.GetPossibleFish(isRainig, hour, bait, _fishList);
         yield return 0; //wait next frame
@@ -52,6 +54,8 @@ public class FishingController
         _hooking = true;
         _hookEvent.Invoke(_fish.Rarity);
         yield return new WaitForSecondsRealtime(_fish.HookSecond);
+        _failEvent.Invoke();
+        _fish = null; _hooking = false; _fishing = false;
     }
 
     public void ActionPressed(GameController gController)

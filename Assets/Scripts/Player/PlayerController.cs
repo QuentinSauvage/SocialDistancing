@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] LayerMask _layerMask;
 
 	[SerializeField] float _speed = 10;
+    private bool _frozen;
+
 	Rigidbody2D _rigidbody2D;
 	Animator _animator;
 
@@ -52,68 +54,82 @@ public class PlayerController : MonoBehaviour
 		
     }
 
+    public void Freeze()
+    {
+        _frozen = true;
+    }
+
+    public void UnFreeze()
+    {
+        _frozen = false;
+    }
+
 	void FixedUpdate()
 	{
-		float x = _movementAction.x * _speed * Time.deltaTime;
-		float y = _movementAction.y * _speed * Time.deltaTime;
-		Vector3 move = new Vector3(x, y, 0);
+        if (!_frozen)
+        {
+            float x = _movementAction.x * _speed * Time.deltaTime;
+            float y = _movementAction.y * _speed * Time.deltaTime;
+            Vector3 move = new Vector3(x, y, 0);
 
-		// idle
-		if(y == 0 && x == 0)
-		{
-			if(!_idle)
-			{
-				_idleTimer += Time.deltaTime;
-				if(_idleTimer > 2)
-				{
-					_idle = true;
-					_gameController.DisplayTime();
-				}
-			}
-		}
-		else
-		{
-			if(_idle)
-			{
-				_idle = false;
-				_gameController.HideTime();
-			}
-			//vertical move
-			if (y != 0)
-			{
-				_animator.SetFloat("MoveX", 0);
-				_animator.SetFloat("MoveY", y);
-				_idleTimer = 0;
+            // idle
+            if (y == 0 && x == 0)
+            {
+                if (!_idle)
+                {
+                    _idleTimer += Time.deltaTime;
+                    if (_idleTimer > 2)
+                    {
+                        _idle = true;
+                        _gameController.DisplayTime();
+                    }
+                }
+            }
+            else
+            {
+                if (_idle)
+                {
+                    _idle = false;
+                    _gameController.HideTime();
+                }
+                //vertical move
+                if (y != 0)
+                {
+                    _animator.SetFloat("MoveX", 0);
+                    _animator.SetFloat("MoveY", y);
+                    _idleTimer = 0;
 
-				if(y > 0)
-				{
-					_facingDirection = Vector3Int.up;
-				} else
-				{
-					_facingDirection = Vector3Int.down;
-				}
-			}
-			// horizontal move 
-			else
-			{
-				_animator.SetFloat("MoveX", x);
-				_animator.SetFloat("MoveY", 0);
-				_idleTimer = 0;
+                    if (y > 0)
+                    {
+                        _facingDirection = Vector3Int.up;
+                    }
+                    else
+                    {
+                        _facingDirection = Vector3Int.down;
+                    }
+                }
+                // horizontal move 
+                else
+                {
+                    _animator.SetFloat("MoveX", x);
+                    _animator.SetFloat("MoveY", 0);
+                    _idleTimer = 0;
 
-				if (x > 0)
-				{
-					_facingDirection = Vector3Int.right;
-				}
-				else
-				{
-					_facingDirection = Vector3Int.left;
-				}
-			}
-		}
-		_animator.SetFloat("Speed", move.magnitude);
-		move += transform.position;
+                    if (x > 0)
+                    {
+                        _facingDirection = Vector3Int.right;
+                    }
+                    else
+                    {
+                        _facingDirection = Vector3Int.left;
+                    }
+                }
+            }
+            _animator.SetFloat("Speed", move.magnitude);
+            move += transform.position;
 
-		_rigidbody2D.MovePosition(move);
+            _rigidbody2D.MovePosition(move);
+        }
 	}
 
 	void OnEnable()

@@ -24,8 +24,8 @@ public class InventoryElement
 
     public void Start(GameObject pslot, InventorySlot.Clicked clicked)
     {
-        OnAddingItem += () => { Debug.Log("add"); };
-        OnRemovingItem += () => { Debug.Log("remove"); };
+        OnAddingItem += () => {  };
+        OnRemovingItem += () => {  };
 
         _slots = new List<InventorySlot>(_size);
         for (int i = 0; i < _size; ++i)
