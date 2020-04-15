@@ -24,7 +24,10 @@ public class InventoryController : MonoBehaviour
     private PlayerActions _playerActions;
     [SerializeField] public static int MAX_ITEM_PER_STACK=99;
 
-    private Stack _selectedStack;
+    private int _money;
+    public int Money { get { return _money;} set { _money = value; } }
+
+    private Stack _mouseStack;
 
     //*************** INVENTORY *****************\\
 
@@ -145,9 +148,10 @@ public class InventoryController : MonoBehaviour
         _bar.Start(_pslot, SlotClicked);
         _inventory.Start(_pslot, SlotClicked);
 
-        _selectedStack = new Stack();
+        _mouseStack = new Stack();
 
         _idSelected = 0;
+        _money = 0;
     }
 
     void Start()
@@ -239,9 +243,9 @@ public class InventoryController : MonoBehaviour
 
     private void UpdateMouseCursor()
     {
-        if(_selectedStack != null &&_selectedStack._nbItem!=0)
+        if(_mouseStack != null &&_mouseStack._nbItem!=0)
         {
-            Sprite icon = _selectedStack._item.Icon;
+            Sprite icon = _mouseStack._item.Icon;
             Texture2D texture = new Texture2D((int)icon.textureRect.width, (int)icon.textureRect.height,TextureFormat.RGBA32,false);
             texture.SetPixels(icon.texture.GetPixels((int)icon.textureRect.x, (int)icon.textureRect.y, (int)icon.textureRect.width, (int)icon.textureRect.height));
             texture.Apply();
@@ -257,25 +261,25 @@ public class InventoryController : MonoBehaviour
 
     public void SlotClicked(InventorySlot slot, UnityEngine.EventSystems.PointerEventData clickEvent)
     {
-        if(_selectedStack == null ||_selectedStack._nbItem==0)
+        if(_mouseStack == null ||_mouseStack._nbItem==0)
         {
             if (slot._stack._nbItem == 0) return;
-            slot.TransferItemToStack(_selectedStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left?slot._stack._nbItem:slot._stack._nbItem/2));
+            slot.TransferItemToStack(_mouseStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left?slot._stack._nbItem:slot._stack._nbItem/2));
         }
         else
         {
             if (slot._stack._nbItem == 0)
-                slot.SetItemFromStack(_selectedStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1));
+                slot.SetItemFromStack(_mouseStack, (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _mouseStack._nbItem : 1));
             else
             {
-                if (slot._stack._item != _selectedStack._item)
+                if (slot._stack._item != _mouseStack._item)
                 {
                     if (clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Right) return;
-                    slot.SwapStack(_selectedStack);
+                    slot.SwapStack(_mouseStack);
                 }
                 else
                 {
-                    slot.TransferItemFromStack(_selectedStack, clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _selectedStack._nbItem : 1);
+                    slot.TransferItemFromStack(_mouseStack, clickEvent.button == UnityEngine.EventSystems.PointerEventData.InputButton.Left ? _mouseStack._nbItem : 1);
                 }
             }
         }

@@ -25,7 +25,24 @@ public class SellingController : MonoBehaviour
 
         _inventoryElement.Start(_pslot,_inventoryController.SlotClicked);
 
+        UpdatePrice();
+    }
 
+    //called by button event
+    public void Sell()
+    {
+        for (int i = 0; i < _inventoryElement.Size; ++i)
+        {
+            InventorySlot slot = _inventoryElement.Slot(i);
+            if (slot._stack._nbItem != 0 && slot._stack._item.IsSalable)
+            {
+                slot._stack._nbItem = 0;
+                slot.UpdateSlot();
+            }
+        }
+
+        _inventoryController.Money = _inventoryController.Money + CurrentPrice;
+        UpdatePrice();
     }
 
     private void UpdatePrice()
