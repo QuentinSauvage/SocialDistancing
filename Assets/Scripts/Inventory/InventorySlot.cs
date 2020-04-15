@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IPointerClickHandler
 {
+    public UnityEngine.Events.UnityEvent AddingItemEvent;
+    public UnityEngine.Events.UnityEvent RemovingItemEvent;
+
     public InventoryController.Stack _stack;
 
     public delegate void Clicked(InventorySlot slot, PointerEventData clickEvent);
@@ -32,6 +35,9 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Awake()
     {
         _background.color = _color;
+
+        /*AddingItemEvent = new UnityEngine.Events.UnityEvent();
+        RemovingItemEvent = new UnityEngine.Events.UnityEvent();*/
     }
 
     /// <summary>
@@ -52,6 +58,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             _stack._nbItem += nbItem;
             stack._nbItem -= nbItem;
         }
+        try { AddingItemEvent.Invoke(); } catch (System.NullReferenceException) { };
         UpdateSlot();
     }
 
@@ -65,6 +72,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         stack._item = _stack._item;
         stack._nbItem = nbItem;
         _stack._nbItem -= nbItem;
+        try{RemovingItemEvent.Invoke(); } catch (System.NullReferenceException) { };
         UpdateSlot();
     }
 
@@ -77,6 +85,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Item item = _stack._item; int nbItem = _stack._nbItem; 
         _stack._item = stack._item; _stack._nbItem = stack._nbItem;
         stack._item = item; stack._nbItem = nbItem;
+        try{AddingItemEvent.Invoke(); } catch (System.NullReferenceException) { };
         UpdateSlot();
     }
 
@@ -88,6 +97,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _stack._item = stack._item;
         _stack._nbItem = nbItem;
         stack._nbItem -= nbItem;
+        AddingItemEvent.Invoke();
         UpdateSlot();
     }
 
@@ -104,12 +114,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             int rest = _stack._nbItem + nbItem - InventoryController.MAX_ITEM_PER_STACK;
             _stack._nbItem = InventoryController.MAX_ITEM_PER_STACK;
             UpdateSlot();
+            AddingItemEvent.Invoke(); 
             return rest;
         }
         else
         {
             _stack._nbItem += nbItem;
             UpdateSlot();
+            AddingItemEvent.Invoke();
             return 0;
         }
     }
@@ -125,6 +137,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         int rest = _stack._nbItem - nbItem;
         _stack._nbItem = Mathf.Clamp(rest, 0, InventoryController.MAX_ITEM_PER_STACK);
         UpdateSlot();
+        RemovingItemEvent.Invoke();
         return Mathf.Clamp(rest, -InventoryController.MAX_ITEM_PER_STACK, 0) * -1;
     }
 

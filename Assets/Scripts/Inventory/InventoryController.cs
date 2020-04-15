@@ -145,7 +145,6 @@ public class InventoryController : MonoBehaviour
         _bar.Start(_pslot, SlotClicked);
         _inventory.Start(_pslot, SlotClicked);
 
-
         _selectedStack = new Stack();
 
         _idSelected = 0;
@@ -256,7 +255,7 @@ public class InventoryController : MonoBehaviour
         }
     }
 
-    private void SlotClicked(InventorySlot slot, UnityEngine.EventSystems.PointerEventData clickEvent)
+    public void SlotClicked(InventorySlot slot, UnityEngine.EventSystems.PointerEventData clickEvent)
     {
         if(_selectedStack == null ||_selectedStack._nbItem==0)
         {

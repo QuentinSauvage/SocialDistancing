@@ -6,6 +6,9 @@ using UnityEngine.UI;
 [System.Serializable]
 public class InventoryElement
 {
+    public UnityEngine.Events.UnityAction OnAddingItem;
+    public UnityEngine.Events.UnityAction OnRemovingItem;
+
     [Header("UI")]
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private LayoutGroup _layout;
@@ -21,6 +24,9 @@ public class InventoryElement
 
     public void Start(GameObject pslot, InventorySlot.Clicked clicked)
     {
+        OnAddingItem += () => { Debug.Log("add"); };
+        OnRemovingItem += () => { Debug.Log("remove"); };
+
         _slots = new List<InventorySlot>(_size);
         for (int i = 0; i < _size; ++i)
         {
@@ -28,6 +34,8 @@ public class InventoryElement
 
             _slots.Add(slot.GetComponent<InventorySlot>());
             _slots[i]._clicked = clicked;
+            _slots[i].AddingItemEvent.AddListener(OnAddingItem);
+            _slots[i].RemovingItemEvent.AddListener(OnRemovingItem);
             _slots[i]._stack = new InventoryController.Stack();
         }
     }
@@ -44,6 +52,7 @@ public class InventoryElement
     /// <returns>nb item that couldn't be added can be 0</returns>
     public int AddItem(Item item, int nbItem)
     {
+        if (nbItem == 0) return 0;
         foreach (InventorySlot slot in _slots)
         {
             if (slot._stack._nbItem == 0)
@@ -72,6 +81,7 @@ public class InventoryElement
     /// <returns>nb item that couldn't be removed, can be 0</returns>
     public int RemoveItem(Item item, int nbItem)
     {
+        if (nbItem == 0) return 0;
         foreach (InventorySlot slot in _slots)
         {
             if (slot._stack._nbItem != 0)

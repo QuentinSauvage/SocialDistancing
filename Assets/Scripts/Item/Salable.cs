@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class  Salable : Item
 {
-    [SerializeField] protected float price;
-
+    [SerializeField] protected int price;
+    public int Price { get { return price; } }
+    
     public override bool IsSalable { get { return true; } }
 }

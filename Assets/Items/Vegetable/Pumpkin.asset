@@ -15,4 +15,4 @@ MonoBehaviour:
   _name: Pumpkin
   _icon: {fileID: 4606331182628343846, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: vegetable_pumpkin
-  price: 0
+  price: 10
