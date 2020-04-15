@@ -47,9 +47,9 @@ public class InventoryController : MonoBehaviour
     /*[SerializeField] private int _barLenght;*/
 
     private int _idSelected;
-    public int SlotSelected { get { return _idSelected; } }
+    public Stack StackSelected { get { return _bar.Slot(_idSelected)._stack; } }
 
-    private double _lastSelectorUpdate = 0;
+	private double _lastSelectorUpdate = 0;
 
     /*private List<Stack> _bar;
 

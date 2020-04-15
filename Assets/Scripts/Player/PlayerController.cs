@@ -1,37 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	[SerializeField] LayerMask _layerMask;
+
 	[SerializeField] float _speed = 10;
 	Rigidbody2D _rigidbody2D;
 	Animator _animator;
+
+	GameController _gameController;
 
 	// Inputs of the player
 	PlayerActions _playerActions;
 	// Receives the movement inputs from the player
 	Vector2 _movementAction;
+	// The direction the player is facing
+	Vector3Int _facingDirection;
+
 	
 	// Time elapsed since the player is idle
 	float _idleTimer;
 	// Is the idle UI displayed?
 	bool _idle;
 
-	TimeManager _timeManager;
-
 	private void Awake()
 	{
+		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
+
 		_rigidbody2D = GetComponent<Rigidbody2D>();
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
+		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
 		_animator = GetComponent<Animator>();
 
 		_idleTimer = 0;
 		_idle = false;
 
-		GameObject gameController = GameObject.Find("GameController");
-		_timeManager = gameController.GetComponent<TimeManager>();
+		_facingDirection = Vector3Int.down;
 	}
 
 	void Start()
@@ -41,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+		
     }
 
 	void FixedUpdate()
@@ -59,7 +67,7 @@ public class PlayerController : MonoBehaviour
 				if(_idleTimer > 2)
 				{
 					_idle = true;
-					_timeManager.DisplayTime();
+					_gameController.DisplayTime();
 				}
 			}
 		}
@@ -68,7 +76,7 @@ public class PlayerController : MonoBehaviour
 			if(_idle)
 			{
 				_idle = false;
-				_timeManager.HideTime();
+				_gameController.HideTime();
 			}
 			//vertical move
 			if (y != 0)
@@ -76,6 +84,14 @@ public class PlayerController : MonoBehaviour
 				_animator.SetFloat("MoveX", 0);
 				_animator.SetFloat("MoveY", y);
 				_idleTimer = 0;
+
+				if(y > 0)
+				{
+					_facingDirection = Vector3Int.up;
+				} else
+				{
+					_facingDirection = Vector3Int.down;
+				}
 			}
 			// horizontal move 
 			else
@@ -83,6 +99,15 @@ public class PlayerController : MonoBehaviour
 				_animator.SetFloat("MoveX", x);
 				_animator.SetFloat("MoveY", 0);
 				_idleTimer = 0;
+
+				if (x > 0)
+				{
+					_facingDirection = Vector3Int.right;
+				}
+				else
+				{
+					_facingDirection = Vector3Int.left;
+				}
 			}
 		}
 		_animator.SetFloat("Speed", move.magnitude);
@@ -99,5 +124,20 @@ public class PlayerController : MonoBehaviour
 	void OnDisable()
 	{
 		_playerActions.Disable();
+	}
+
+	void CheckAction(InputAction.CallbackContext context)
+	{
+
+		Vector3 center = transform.position;
+		center.y += transform.localScale.y / 2;
+		Vector3Int target = Vector3Int.FloorToInt(center);
+
+		target += _facingDirection;
+
+		Vector3 vv = center + _facingDirection;
+		RaycastHit2D hit = Physics2D.Raycast(center, vv, 1, _layerMask);
+
+		_gameController.CheckAction(target, hit);
 	}
 }
