@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
+		_playerActions.PlayerAction.Pause.performed += _gameController.OnPause;
 		_animator = GetComponent<Animator>();
 
 		_idleTimer = 0;
@@ -142,6 +143,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions.Disable();
 	}
 
+	// Checks the objects the player is facing and asks the GameController to handle the action of the player
 	void CheckAction(InputAction.CallbackContext context)
 	{
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 //[RequireComponent(typeof(TimeManager), typeof(GardenManager), typeof(ShopManager))]
 public class GameController : MonoBehaviour
@@ -14,10 +16,16 @@ public class GameController : MonoBehaviour
 
     [SerializeField] FishingController _fishingController;
 
+	bool _gamePaused;
+	[SerializeField] GameObject _pauseMenu;
+
 
     // Start is called before the first frame update
     void Start()
     {
+		_gamePaused = false;
+		_pauseMenu.SetActive(false);
+
 		// Retrieves the player controller
 		GameObject player = GameObject.Find("Player");
 		if(player != null)
@@ -79,4 +87,29 @@ public class GameController : MonoBehaviour
     {
         _fishingController.ActionPressed(this);
     }
+
+	// Function called when the game is paused using a key
+	public void OnPause(InputAction.CallbackContext context)
+	{
+		OnPause2();
+	}
+
+	// Function called by using a key or a button
+	public void OnPause2()
+	{
+		Time.timeScale = (_gamePaused) ? 1 : 0;
+		_gamePaused = !_gamePaused;
+		_timeManager.PauseMusic(_gamePaused);
+		_pauseMenu.SetActive(_gamePaused);
+	}
+
+	public void OnMainMenu()
+	{
+		SceneManager.LoadScene("MainMenu");
+	}
+
+	public void OnQuitGame()
+	{
+		Application.Quit();
+	}
 }

@@ -142,6 +142,14 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""dbe71c55-5459-45a2-8d5e-66133a0f6cbb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -153,6 +161,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DefaultAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6be75c61-5cb1-4361-a5bd-e462f5fa8fa7"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,6 +190,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         // PlayerAction
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
+        m_PlayerAction_Pause = m_PlayerAction.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,11 +315,13 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerAction;
     private IPlayerActionActions m_PlayerActionActionsCallbackInterface;
     private readonly InputAction m_PlayerAction_DefaultAction;
+    private readonly InputAction m_PlayerAction_Pause;
     public struct PlayerActionActions
     {
         private @PlayerActions m_Wrapper;
         public PlayerActionActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @DefaultAction => m_Wrapper.m_PlayerAction_DefaultAction;
+        public InputAction @Pause => m_Wrapper.m_PlayerAction_Pause;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -312,6 +334,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+                @Pause.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionActionsCallbackInterface = instance;
             if (instance != null)
@@ -319,6 +344,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started += instance.OnDefaultAction;
                 @DefaultAction.performed += instance.OnDefaultAction;
                 @DefaultAction.canceled += instance.OnDefaultAction;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -335,5 +363,6 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     public interface IPlayerActionActions
     {
         void OnDefaultAction(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

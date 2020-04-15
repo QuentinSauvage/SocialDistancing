@@ -219,4 +219,16 @@ public class TimeManager : MonoBehaviour
 			_audioSource.Play();
 		}
 	}
+
+	public void PauseMusic(bool gameState)
+	{
+		if(gameState)
+		{
+			_audioSource.Pause();
+		}
+		else
+		{
+			_audioSource.UnPause();
+		}
+	}
 }
