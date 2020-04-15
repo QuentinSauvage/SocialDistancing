@@ -3176,6 +3176,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f76ecb2ae9a384e9b9bd75ec100045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ambientMusics:
+  - {fileID: 8300000, guid: 449a15f7fc68dd741848298bc46e2c95, type: 3}
+  - {fileID: 8300000, guid: 3615d443a4ed06a48abd97e3a0d78341, type: 3}
+  - {fileID: 8300000, guid: 9dfd29520317f6f479cff803ebd13c32, type: 3}
+  - {fileID: 8300000, guid: 423862eee47e9ef4bb8a1c60664bf8eb, type: 3}
+  - {fileID: 8300000, guid: 2b51905ae764478439c798128127b7e5, type: 3}
+  - {fileID: 8300000, guid: 3d250329b04eb67478f4d9328fb87620, type: 3}
+  - {fileID: 8300000, guid: 07aed8caa0850a6459adc4a81471030b, type: 3}
+  - {fileID: 8300000, guid: 73b5619657757d74d8cb24224406fe1b, type: 3}
   _secondDuration: 3
   _idleUI: {fileID: 1953949288}
   _timerText: {fileID: 955274185}
