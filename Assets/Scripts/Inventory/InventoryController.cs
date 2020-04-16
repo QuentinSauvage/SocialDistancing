@@ -19,6 +19,8 @@ public class InventoryController : MonoBehaviour
         }
     }
 
+	private GameController _gameController;
+
     // prefab of slot
     [SerializeField] private GameObject _pslot;
     private PlayerActions _playerActions;
@@ -43,6 +45,7 @@ public class InventoryController : MonoBehaviour
 
     //private float _inventorySlotSize;*/
     [SerializeField] InventoryElement _inventory; //12*5
+	public InventoryElement Inventory { get { return _inventory; } }
 
     //*************** BAR ***************\\
 
@@ -157,7 +160,9 @@ public class InventoryController : MonoBehaviour
     void Start()
     {
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
-    }
+		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
+		_inventory.IsVisible = false;
+	}
 
     /*** callabable method to add or remove item ***/
 
@@ -218,10 +223,28 @@ public class InventoryController : MonoBehaviour
         return _bar.Count(item) + _inventory.Count(item);
     }
 
+	// Handles the player input corresponding to the inventory
     private void ToggleInventory(InputAction.CallbackContext context)
     {
-        _inventory.IsVisible = !_inventory.IsVisible;
+		if(!GameController._gamePaused)
+		{
+			ToggleInventory2();
+		}
     }
+
+	// Handles the inventory visibility without needing a CallbackContext
+	public void ToggleInventory2()
+	{
+		if(_gameController.Player.FrozenState)
+		{
+			_gameController.Player.UnFreeze();
+		}
+		else
+		{
+			_gameController.Player.Freeze();
+		}
+		_inventory.IsVisible = !_inventory.IsVisible;
+	}
 
     private void UpdateSelectorPosition(InputAction.CallbackContext context)
     {

@@ -8,6 +8,8 @@ using UnityEngine.InputSystem;
 public class GameController : MonoBehaviour
 {
 	PlayerController _playerController;
+	public PlayerController Player { get { return _playerController; } }
+ 
 	TimeManager _timeManager;
 	InventoryController _inventoryController;
 	TileManager _tileManager;
@@ -16,7 +18,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField] FishingController _fishingController;
 
-	bool _gamePaused;
+	public static bool _gamePaused;
 	[SerializeField] GameObject _pauseMenu;
 
 
@@ -88,6 +90,18 @@ public class GameController : MonoBehaviour
         _fishingController.ActionPressed(this);
     }
 
+	public void OnCloseMenu(InputAction.CallbackContext context)
+	{
+		if(_inventoryController.Inventory.IsVisible)
+		{
+			_inventoryController.ToggleInventory2();
+		}
+		else
+		{
+			OnPause2();
+		}
+	}
+
 	// Function called when the game is paused using a key
 	public void OnPause(InputAction.CallbackContext context)
 	{
@@ -97,10 +111,13 @@ public class GameController : MonoBehaviour
 	// Function called by using a key or a button
 	public void OnPause2()
 	{
-		Time.timeScale = (_gamePaused) ? 1 : 0;
-		_gamePaused = !_gamePaused;
-		_timeManager.PauseMusic(_gamePaused);
-		_pauseMenu.SetActive(_gamePaused);
+		if(!_inventoryController.Inventory.IsVisible)
+		{
+			Time.timeScale = (_gamePaused) ? 1 : 0;
+			_gamePaused = !_gamePaused;
+			_timeManager.PauseMusic(_gamePaused);
+			_pauseMenu.SetActive(_gamePaused);
+		}
 	}
 
 	public void OnMainMenu()

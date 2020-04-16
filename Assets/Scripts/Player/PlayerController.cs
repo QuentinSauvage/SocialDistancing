@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField] float _speed = 10;
     private bool _frozen;
+	public bool FrozenState { get { return _frozen; } }
 
 	Rigidbody2D _rigidbody2D;
 	Animator _animator;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
 		_playerActions.PlayerAction.Pause.performed += _gameController.OnPause;
+		_playerActions.PlayerAction.CloseMenu.performed += _gameController.OnCloseMenu;
 		_animator = GetComponent<Animator>();
 
 		_idleTimer = 0;

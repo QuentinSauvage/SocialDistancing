@@ -150,6 +150,14 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CloseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1e1ea1c-44db-4f78-aa13-ee0053c769ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -174,6 +182,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19091320-b6ff-4a0d-b722-110a682b97f1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -191,6 +210,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
         m_PlayerAction_Pause = m_PlayerAction.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerAction_CloseMenu = m_PlayerAction.FindAction("CloseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -316,12 +336,14 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private IPlayerActionActions m_PlayerActionActionsCallbackInterface;
     private readonly InputAction m_PlayerAction_DefaultAction;
     private readonly InputAction m_PlayerAction_Pause;
+    private readonly InputAction m_PlayerAction_CloseMenu;
     public struct PlayerActionActions
     {
         private @PlayerActions m_Wrapper;
         public PlayerActionActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @DefaultAction => m_Wrapper.m_PlayerAction_DefaultAction;
         public InputAction @Pause => m_Wrapper.m_PlayerAction_Pause;
+        public InputAction @CloseMenu => m_Wrapper.m_PlayerAction_CloseMenu;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -337,6 +359,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @CloseMenu.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
+                @CloseMenu.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
+                @CloseMenu.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
             }
             m_Wrapper.m_PlayerActionActionsCallbackInterface = instance;
             if (instance != null)
@@ -347,6 +372,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @CloseMenu.started += instance.OnCloseMenu;
+                @CloseMenu.performed += instance.OnCloseMenu;
+                @CloseMenu.canceled += instance.OnCloseMenu;
             }
         }
     }
@@ -364,5 +392,6 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     {
         void OnDefaultAction(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnCloseMenu(InputAction.CallbackContext context);
     }
 }
