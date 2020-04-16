@@ -3355,6 +3355,8 @@ GameObject:
   - component: {fileID: 588211542}
   - component: {fileID: 588211541}
   - component: {fileID: 588211543}
+  - component: {fileID: 588211545}
+  - component: {fileID: 588211544}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -3404,9 +3406,11 @@ MonoBehaviour:
   - _name: DEFAULT
     _probability: 0
     _intensity: 0
+    _watersVegetables: 0
   - _name: RAIN
     _probability: 5
     _intensity: 0.6
+    _watersVegetables: 0
   _weatherIntensity: 0
 --- !u!4 &588211539
 Transform:
@@ -3448,6 +3452,7 @@ MonoBehaviour:
     _failEvent:
       m_PersistentCalls:
         m_Calls: []
+  _gardenController: {fileID: 0}
   _pauseMenu: {fileID: 1233534181}
 --- !u!199 &588211541
 ParticleSystemRenderer:
@@ -8209,6 +8214,30 @@ MonoBehaviour:
   _chopTreeEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &588211544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588211537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ffbe91ac513f0408b30e3948505640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &588211545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588211537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82ffbe91ac513f0408b30e3948505640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &774469060
 GameObject:
   m_ObjectHideFlags: 0
@@ -12657,11 +12686,11 @@ RectTransform:
   m_Father: {fileID: 1142865872}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 910, y: -733.1502}
-  m_SizeDelta: {x: 150, y: 50}
-  m_Pivot: {x: 1, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &955274185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12708,12 +12737,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 44.75
+  m_fontSize: 89.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 100
   m_fontStyle: 0
   m_textAlignment: 258
   m_characterSpacing: 0
@@ -13051,11 +13080,11 @@ RectTransform:
   m_Father: {fileID: 1953949292}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -100, y: 50}
+  m_SizeDelta: {x: 300, y: 100}
+  m_Pivot: {x: 1, y: 0}
 --- !u!1 &1233534181
 GameObject:
   m_ObjectHideFlags: 0

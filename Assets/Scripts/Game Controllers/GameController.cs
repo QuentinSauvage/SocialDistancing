@@ -9,14 +9,14 @@ public class GameController : MonoBehaviour
 {
 	PlayerController _playerController;
 	public PlayerController Player { get { return _playerController; } }
- 
+
 	TimeManager _timeManager;
 	InventoryController _inventoryController;
 	TileManager _tileManager;
-    //GardenManager _gardenManager;
     //ShopManager _shopManager;
 
     [SerializeField] FishingController _fishingController;
+	[SerializeField] GardenController _gardenController;
 
 	public static bool _gamePaused;
 	[SerializeField] GameObject _pauseMenu;
@@ -128,5 +128,21 @@ public class GameController : MonoBehaviour
 	public void OnQuitGame()
 	{
 		Application.Quit();
+	}
+
+	// Calls the GardenController to update every planted vegetables
+	public void UpdatePlantation(bool raining)
+	{
+		_gardenController.UpdatePlantation(raining);
+	}
+
+	public void OnStartSkippingTime(InputAction.CallbackContext context)
+	{
+		_timeManager.StartSkippingTime();
+	}
+	
+	public void OnStopSkippingTime(InputAction.CallbackContext context)
+	{
+		_timeManager.StopSkippingTime();
 	}
 }

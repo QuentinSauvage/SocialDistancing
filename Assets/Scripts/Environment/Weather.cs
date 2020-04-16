@@ -8,7 +8,8 @@ public struct Weather
 	[SerializeField] private string _name;
 	[SerializeField] private int _probability;
 	[SerializeField] private float _intensity;
-	// PartcielSystem?
+	[SerializeField] private bool _watersVegetables;
+	// ParticleSystem?
 
 	public int Probability
 	{
@@ -18,5 +19,10 @@ public struct Weather
 	public float Intensity
 	{
 		get { return _intensity; }
+	}
+
+	public bool WatersVegetables
+	{
+		get { return _watersVegetables; }
 	}
 }

@@ -6,6 +6,8 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class TimeManager : MonoBehaviour
 {
+	private GameController _gameController;
+
 	//************** START AMBIENT MUSIC **************\\
 	private AudioSource _audioSource;
 	[SerializeField] private AudioClip[] _ambientMusics = new AudioClip[8];
@@ -81,6 +83,8 @@ public class TimeManager : MonoBehaviour
 		_currentWeather = 0;
 		_weatherTimer = 0;
 
+		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
+
 		UpdateCurrentMusic();
 		UpdateText();
 		UpdateSunLight();
@@ -137,6 +141,8 @@ public class TimeManager : MonoBehaviour
 				UpdateCurrentMusic();
 			}
 			_elapsedTime = 0;
+
+			//_gameController.UpdatePlantation(_weathers[_currentWeather].WatersVegetables);
 
 			UpdateText();
 			UpdateSunLight();
@@ -269,5 +275,15 @@ public class TimeManager : MonoBehaviour
 
 		_bTransition = false;
 		_transitionTimer = 0;
+	}
+
+	public void StartSkippingTime()
+	{
+		_secondDuration /= 1000;
+	}
+
+	public void StopSkippingTime()
+	{
+		_secondDuration *= 1000;
 	}
 }
