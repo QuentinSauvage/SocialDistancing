@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e378618283a392a4e870b4f24614c843, type: 3}
+  m_Name: Pike
+  m_EditorClassIdentifier: 
+  _name: Pike
+  _icon: {fileID: 0}
+  _id: fish_pike
+  price: 700
+  _canBeFishedRaining: 1
+  _canBeFishedNotRaining: 0
+  _needBait: 1
+  _workingBait:
+  - {fileID: 11400000, guid: af633e21cd44b7f4b99d5307f619f82d, type: 2}
+  - {fileID: 11400000, guid: e757e936a9511bc4fb5eb2514b3bfb05, type: 2}
+  - {fileID: 11400000, guid: e166ac86a12808c42b3094cc4d03420c, type: 2}
+  _beginHour: 12
+  _endHour: 24
+  _minWaitSecond: 5
+  _maxWaitSecond: 10
+  _hookSecond: 2
+  _rarity: 1
