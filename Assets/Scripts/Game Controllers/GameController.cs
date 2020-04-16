@@ -63,6 +63,21 @@ public class GameController : MonoBehaviour
 		_timeManager.HideTime();
 	}
 
+    public float GetHour()
+    {
+        return _timeManager.Hour;
+    }
+
+    public bool IsRaining()
+    {
+        return _timeManager.IsRaining;
+    }
+
+    public InventoryController.Stack GetBarSelectedStack()
+    {
+        return _inventoryController.StackSelected;
+    }
+
 	// Check if the player can interact with the tiles it is facing.
 	// This function will firstly check if the actions that don't require any tool,
 	// then it will check if an action can be done with the item selected in the inventory

@@ -49,9 +49,9 @@ public class Fish : Salable
     /// <param name="bait">bait used, can be null</param>
     /// <param name="hour">hour of the game</param>
     /// <returns>true if the fish can be fished</returns>
-    public bool CanBeFished(bool isRaining, Bait bait, int hour)
+    public bool CanBeFished(bool isRaining, Bait bait, BonusBait bonusBait, int hour)
     {
-        return IsGoodHour(hour) && IsGoodWeather(isRaining) && IsGoodBait(bait);
+        return (bonusBait.BonusIgnoreHour||IsGoodHour(hour)) && (bonusBait.BonusIgnoreWeaher||IsGoodWeather(isRaining)) && IsGoodBait(bait);
     }
 
     public int GetWaitSecond()

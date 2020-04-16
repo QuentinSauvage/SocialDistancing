@@ -101,6 +101,12 @@ public class InventoryController : MonoBehaviour
         AddItem(itemDatabase.GetItemByID("vegetable_salad"), 10);
     }
 
+    [ContextMenu("Add fishing rod")]
+    void AddRod()
+    {
+        AddItem(itemDatabase.GetItemByID("fishingrod_rod"),1);
+    }
+
     [ContextMenu("Count Salads")]
     void CountSalads()
     {

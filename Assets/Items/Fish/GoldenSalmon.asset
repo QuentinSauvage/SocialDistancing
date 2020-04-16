@@ -23,7 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
   _beginHour: 20
   _endHour: 24
-  _minWaitSecond: 0
-  _maxWaitSecond: 0
-  _hookSecond: 0
+  _minWaitSecond: 5
+  _maxWaitSecond: 8
+  _hookSecond: 2
   _rarity: 3

@@ -19,4 +19,9 @@ public struct Weather
 	{
 		get { return _intensity; }
 	}
+
+    public string Name
+    {
+        get { return _name; }
+    }
 }
