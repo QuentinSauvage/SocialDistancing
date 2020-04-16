@@ -1,23 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 //[RequireComponent(typeof(TimeManager), typeof(GardenManager), typeof(ShopManager))]
 public class GameController : MonoBehaviour
 {
 	PlayerController _playerController;
+	public PlayerController Player { get { return _playerController; } }
+
 	TimeManager _timeManager;
 	InventoryController _inventoryController;
 	TileManager _tileManager;
-    //GardenManager _gardenManager;
     //ShopManager _shopManager;
 
     [SerializeField] FishingController _fishingController;
+	[SerializeField] GardenController _gardenController;
+
+	public static bool _gamePaused;
+	[SerializeField] GameObject _pauseMenu;
 
 
     // Start is called before the first frame update
     void Start()
     {
+		_gamePaused = false;
+		_pauseMenu.SetActive(false);
+
 		// Retrieves the player controller
 		GameObject player = GameObject.Find("Player");
 		if(player != null)
@@ -94,4 +104,60 @@ public class GameController : MonoBehaviour
     {
         _fishingController.ActionPressed(this);
     }
+
+	public void OnCloseMenu(InputAction.CallbackContext context)
+	{
+		if(_inventoryController.Inventory.IsVisible)
+		{
+			_inventoryController.ToggleInventory2();
+		}
+		else
+		{
+			OnPause2();
+		}
+	}
+
+	// Function called when the game is paused using a key
+	public void OnPause(InputAction.CallbackContext context)
+	{
+		OnPause2();
+	}
+
+	// Function called by using a key or a button
+	public void OnPause2()
+	{
+		if(!_inventoryController.Inventory.IsVisible)
+		{
+			Time.timeScale = (_gamePaused) ? 1 : 0;
+			_gamePaused = !_gamePaused;
+			_timeManager.PauseMusic(_gamePaused);
+			_pauseMenu.SetActive(_gamePaused);
+		}
+	}
+
+	public void OnMainMenu()
+	{
+		SceneManager.LoadScene("MainMenu");
+	}
+
+	public void OnQuitGame()
+	{
+		Application.Quit();
+	}
+
+	// Calls the GardenController to update every planted vegetables
+	public void UpdatePlantation(bool raining)
+	{
+		_gardenController.UpdatePlantation(raining);
+	}
+
+	public void OnStartSkippingTime(InputAction.CallbackContext context)
+	{
+		_timeManager.StartSkippingTime();
+	}
+	
+	public void OnStopSkippingTime(InputAction.CallbackContext context)
+	{
+		_timeManager.StopSkippingTime();
+	}
 }

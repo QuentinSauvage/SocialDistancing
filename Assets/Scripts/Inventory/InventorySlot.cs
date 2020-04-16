@@ -35,9 +35,6 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Awake()
     {
         _background.color = _color;
-
-        /*AddingItemEvent = new UnityEngine.Events.UnityEvent();
-        RemovingItemEvent = new UnityEngine.Events.UnityEvent();*/
     }
 
     /// <summary>

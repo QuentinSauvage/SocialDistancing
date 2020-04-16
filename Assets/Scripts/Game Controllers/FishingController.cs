@@ -32,7 +32,7 @@ public class FishingController
     private Fish RandomFish(BonusBait bonusBait)
     {
         Fish.FishRarity rarity;
-        if (!bonusBait.BonusForceRarity)
+        if (bonusBait == null || !bonusBait.BonusForceRarity)
         {
             float rand = Random.Range(0, 1f);
             rarity = (rand < 0.1f ? Fish.FishRarity.LEGEND : rand < 0.25f ? Fish.FishRarity.EPIC : rand < 0.5f ? Fish.FishRarity.RARE : Fish.FishRarity.COMMUN);
@@ -57,7 +57,7 @@ public class FishingController
         _fish = RandomFish(bonusBait);
         Debug.Assert(_fish != null);
         float wait = _fish.GetWaitSecond();
-        yield return new WaitForSecondsRealtime(wait - wait*bonusBait.BonusPercentWaitTime);
+        yield return new WaitForSecondsRealtime(wait - (bonusBait!=null?wait*bonusBait.BonusPercentWaitTime:0));
         _hooking = true;
         _hookEvent.Invoke(_fish.Rarity);
         yield return new WaitForSecondsRealtime(_fish.HookSecond);
@@ -67,7 +67,7 @@ public class FishingController
 
     public void ActionPressed(GameController gController)
     {
-        if(gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
+        if(gController.GetBarSelectedStack()._nbItem == 0 || gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
         {
             return;
         }

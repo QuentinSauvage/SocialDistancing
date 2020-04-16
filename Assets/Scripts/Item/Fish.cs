@@ -51,7 +51,7 @@ public class Fish : Salable
     /// <returns>true if the fish can be fished</returns>
     public bool CanBeFished(bool isRaining, Bait bait, BonusBait bonusBait, int hour)
     {
-        return (bonusBait.BonusIgnoreHour||IsGoodHour(hour)) && (bonusBait.BonusIgnoreWeaher||IsGoodWeather(isRaining)) && IsGoodBait(bait);
+        return ((bonusBait!=null && bonusBait.BonusIgnoreHour)||IsGoodHour(hour)) && ((bonusBait != null && bonusBait.BonusIgnoreWeaher)||IsGoodWeather(isRaining)) && IsGoodBait(bait);
     }
 
     public int GetWaitSecond()

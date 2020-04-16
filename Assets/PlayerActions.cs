@@ -82,6 +82,61 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""047a8ab9-e1eb-46f8-b337-14c9b1338e1b"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""b1f728f9-9730-4f41-8ebf-808b0fbe131a"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""3e4468f3-6a7a-4f51-a132-97616c30a30c"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e6fa8fa1-2b5f-4d68-9024-b47b896deec2"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""be66b094-3374-49de-9c0d-1eb66099e15b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -142,6 +197,30 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""dbe71c55-5459-45a2-8d5e-66133a0f6cbb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""CloseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1e1ea1c-44db-4f78-aa13-ee0053c769ae"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SkipTime"",
+                    ""type"": ""Button"",
+                    ""id"": ""a1d8099a-56b4-4797-a481-5b8d2c3c3bc4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -153,6 +232,72 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""DefaultAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98376e65-b56a-4fdb-9c8e-037ca473fc65"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DefaultAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6be75c61-5cb1-4361-a5bd-e462f5fa8fa7"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19091320-b6ff-4a0d-b722-110a682b97f1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a348655f-80d9-4c45-b1fd-2942ac85886b"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipTime"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a8528a6-ce41-4483-af89-42ad50b1f08b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipTime"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf58dd83-70f7-4476-b082-192e49b325af"",
+                    ""path"": ""<Keyboard>/rightShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipTime"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -171,6 +316,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         // PlayerAction
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
+        m_PlayerAction_Pause = m_PlayerAction.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerAction_CloseMenu = m_PlayerAction.FindAction("CloseMenu", throwIfNotFound: true);
+        m_PlayerAction_SkipTime = m_PlayerAction.FindAction("SkipTime", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -295,11 +443,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerAction;
     private IPlayerActionActions m_PlayerActionActionsCallbackInterface;
     private readonly InputAction m_PlayerAction_DefaultAction;
+    private readonly InputAction m_PlayerAction_Pause;
+    private readonly InputAction m_PlayerAction_CloseMenu;
+    private readonly InputAction m_PlayerAction_SkipTime;
     public struct PlayerActionActions
     {
         private @PlayerActions m_Wrapper;
         public PlayerActionActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @DefaultAction => m_Wrapper.m_PlayerAction_DefaultAction;
+        public InputAction @Pause => m_Wrapper.m_PlayerAction_Pause;
+        public InputAction @CloseMenu => m_Wrapper.m_PlayerAction_CloseMenu;
+        public InputAction @SkipTime => m_Wrapper.m_PlayerAction_SkipTime;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAction; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -312,6 +466,15 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+                @Pause.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
+                @CloseMenu.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
+                @CloseMenu.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
+                @CloseMenu.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnCloseMenu;
+                @SkipTime.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSkipTime;
+                @SkipTime.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSkipTime;
+                @SkipTime.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSkipTime;
             }
             m_Wrapper.m_PlayerActionActionsCallbackInterface = instance;
             if (instance != null)
@@ -319,6 +482,15 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started += instance.OnDefaultAction;
                 @DefaultAction.performed += instance.OnDefaultAction;
                 @DefaultAction.canceled += instance.OnDefaultAction;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
+                @CloseMenu.started += instance.OnCloseMenu;
+                @CloseMenu.performed += instance.OnCloseMenu;
+                @CloseMenu.canceled += instance.OnCloseMenu;
+                @SkipTime.started += instance.OnSkipTime;
+                @SkipTime.performed += instance.OnSkipTime;
+                @SkipTime.canceled += instance.OnSkipTime;
             }
         }
     }
@@ -335,5 +507,8 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     public interface IPlayerActionActions
     {
         void OnDefaultAction(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
+        void OnCloseMenu(InputAction.CallbackContext context);
+        void OnSkipTime(InputAction.CallbackContext context);
     }
 }

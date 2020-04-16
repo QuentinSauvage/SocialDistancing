@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e378618283a392a4e870b4f24614c843, type: 3}
+  m_Name: WhiteShark
+  m_EditorClassIdentifier: 
+  _name: WhiteShark
+  _icon: {fileID: 0}
+  _id: fish_whiteshark
+  price: 12000
+  _canBeFishedRaining: 1
+  _canBeFishedNotRaining: 1
+  _needBait: 1
+  _workingBait:
+  - {fileID: 11400000, guid: 538e1a40cf3f0b845b6a6964fe18ae1c, type: 2}
+  - {fileID: 11400000, guid: a6af60a96c3fedf48bfa9416e0f3898c, type: 2}
+  _beginHour: 0
+  _endHour: 0
+  _minWaitSecond: 0
+  _maxWaitSecond: 0
+  _hookSecond: 0
+  _rarity: 3
