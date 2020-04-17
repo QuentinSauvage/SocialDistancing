@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] LayerMask _layerMask;
+	[SerializeField] GameObject _hookIndicator;
+	[SerializeField] TextMeshProUGUI _hookText;
 
 	[SerializeField] float _speed = 10;
     private bool _frozen;
@@ -32,7 +35,6 @@ public class PlayerController : MonoBehaviour
 	private void Awake()
 	{
 		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
-
 		_rigidbody2D = GetComponent<Rigidbody2D>();
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
@@ -52,8 +54,9 @@ public class PlayerController : MonoBehaviour
 
 	void Start()
     {
-        
-    }
+		_hookIndicator.SetActive(false);
+
+	}
 
     void Update()
     {
@@ -163,5 +166,30 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log(context.action.name);
 		_gameController.CheckAction(target, hit, context.action.name== "SecondAction");
+	}
+
+	IEnumerator DisplayHookIndicator()
+	{
+		_hookIndicator.SetActive(true);
+		for (float f = 0; f < 1; f += 0.1f)
+		{
+			_hookIndicator.transform.position = Vector3.Lerp(transform.position + (Vector3.up / 2), transform.position + Vector3.up * 2, f);
+			yield return null;
+		}
+	}
+
+	public void OnStartHooking(int rarity)
+	{
+		_hookText.text = "";
+		for(int i = 0; i <= rarity; ++i)
+		{
+			_hookText.text += '!';
+		}
+		StartCoroutine("DisplayHookIndicator");
+	}
+
+	public void OnStopHooking()
+	{
+		_hookIndicator.SetActive(false);
 	}
 }
