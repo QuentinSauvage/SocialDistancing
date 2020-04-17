@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -7358,7 +7358,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &792762814
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10872,7 +10872,7 @@ MonoBehaviour:
     Fishing
     rod:
 
-    https://opengameart.org/content/24x32-fishing-rod-assets-works-with-peppercarrot-cabbit-sprites?fbclid=IwAR2PE0rTlPeS7aLO88uRl3CVkNpezdudKx4P82nrOv12J5408eNLrn-pxfM'
+    https://opengameart.org/content/24x32-fishing-rod-assets-works-with-peppercarrot-cabbit-sprites'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10941,12 +10941,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 11.677185, w: -17.37799}
   m_textInfo:
     textComponent: {fileID: 1319407314}
-    characterCount: 489
+    characterCount: 420
     spriteCount: 0
     spaceCount: 27
-    wordCount: 42
+    wordCount: 40
     linkCount: 0
-    lineCount: 12
+    lineCount: 11
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
