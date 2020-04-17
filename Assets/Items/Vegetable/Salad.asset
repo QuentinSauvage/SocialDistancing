@@ -15,4 +15,16 @@ MonoBehaviour:
   _name: Salad
   _icon: {fileID: 6105127484610634250, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: vegetable_salad
-  price: 0
+  _desc: A basic vegetable, needs to be watered.
+  price: 120
+  _timeToGrow: 720
+  _timeBeforeWilting: 240
+  _waterTimer: 500
+  _quantity: 5
+  _growthSprites:
+  - {fileID: -1477595275054574440, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  - {fileID: -8047240443745202896, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  - {fileID: 6105127484610634250, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  _wiltedSprite: {fileID: 1181448965997768054, guid: 3f267d311618ac94496801c9d0c8125f,
+    type: 3}
+  _wateredSprite: {fileID: 21300000, guid: dbaf079bb734d234c9c2a3ccbcd7f1a2, type: 3}

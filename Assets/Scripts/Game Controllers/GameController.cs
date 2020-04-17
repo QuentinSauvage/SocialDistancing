@@ -130,7 +130,9 @@ public class GameController : MonoBehaviour
 		Vegetable v = (Vegetable) _inventoryController.StackSelected._item;
 		if(v != null && _inventoryController.StackSelected._nbItem > 0)
 		{
-			GameObject g = Instantiate(_vegetablePrefab, _playerController.transform.position, Quaternion.identity);
+			Vector3 initPos = _playerController.TileLookedPosition();
+			initPos.x += 0.5f;
+			GameObject g = Instantiate(_vegetablePrefab, initPos, Quaternion.identity);
 			VegetableObject vo = g.AddComponent<VegetableObject>();
 			Vegetable v2 = (Vegetable) _inventoryController.RemoveItemFromBarSelected(1);
 			vo.Init(v2);

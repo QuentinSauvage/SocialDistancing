@@ -151,6 +151,16 @@ public class PlayerController : MonoBehaviour
 		_playerActions.Disable();
 	}
 
+	public Vector3Int TileLookedPosition()
+	{
+		Vector3 center = transform.position;
+		center.y += transform.localScale.y / 2;
+		Vector3Int target = Vector3Int.FloorToInt(center);
+
+		target += _facingDirection;
+		return target;
+	}
+
 	// Checks the objects the player is facing and asks the GameController to handle the action of the player
 	void CheckAction(InputAction.CallbackContext context)
 	{

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crocodile
   m_EditorClassIdentifier: 
   _name: Crocodile
-  _icon: {fileID: 0}
+  _icon: {fileID: 977947730785828369, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_crocodile
   _desc: A legendary fish.
   price: 16000

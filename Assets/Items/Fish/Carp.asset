@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: Carp
   m_EditorClassIdentifier: 
   _name: Carp
-  _icon: {fileID: 0}
+  _icon: {fileID: 977947730785828369, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_carp
   _desc: A rare fish.
   price: 600
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1
   _needBait: 0
-  _workingBait: []
+  _workingBait:
+  - {fileID: 11400000, guid: 4158df734b1ae4e4a9755b53d95e13ac, type: 2}
+  - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
   _beginHour: 8
   _endHour: 16
   _minWaitSecond: 4

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sardine
   m_EditorClassIdentifier: 
   _name: Sardine
-  _icon: {fileID: 0}
+  _icon: {fileID: 2849512858085721194, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: bait_sardine
-  _desc: A basic bait.
+  _desc: This bait works well for medium or big fish.

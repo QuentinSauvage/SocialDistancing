@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Perch
   m_EditorClassIdentifier: 
   _name: Perch
-  _icon: {fileID: 0}
+  _icon: {fileID: -1070758903467642439, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_perch
   _desc: A commun fish.
   price: 400
