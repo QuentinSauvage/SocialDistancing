@@ -12,15 +12,22 @@ public class Vegetable : Salable
 	[Header("In-game minutes before wilting")]
 	[SerializeField] int _timeBeforeWilting;
 	[Header("In-game minutes before wilting, if not watered, 0 means it doesn't need water")]
-	[SerializeField] int _waterTimer;
+	[SerializeField] float _waterTimer;
+	public float WaterTimer {
+		get { return _waterTimer; }
+		set { _waterTimer = value; }
+	}
+
 	[SerializeField] int _quantity;
 	[SerializeField] List<Sprite> _growthSprites;
 	public List<Sprite> Sprites { get { return _growthSprites; } }
 
 	[SerializeField] Sprite _wiltedSprite;
+	[SerializeField] Sprite _wateredSprite;
 
 	int _currentState = 0;
 	public int State { get { return _currentState; } }
+	bool _needsWater = false;
 
 	int _lastMilestone;
 
@@ -32,7 +39,7 @@ public class Vegetable : Salable
     }
 
 	// Decreases all timers and returns a sprite corresponding to the state of the object if it changed, null otherwise
-	public Sprite UpdateGrowth(bool raining, float baseTime)
+	public Sprite UpdateGrowth(bool raining, float baseGrowthTimer, float baseWateredTimer)
 	{
 		if (_timeToGrow > 1)
 		{
@@ -50,14 +57,32 @@ public class Vegetable : Salable
 					_timeBeforeWilting = 0;
 					return _wiltedSprite;
 				}
+				else if(_waterTimer < baseWateredTimer / 2 && !_needsWater)
+				{
+					_needsWater = true;
+					return _wateredSprite;
+				}
+			}
+			else
+			{
+				_waterTimer = baseWateredTimer;
+				if (_needsWater)
+				{
+					_needsWater = false;
+					return _growthSprites[_currentState];
+				}
 			}
 
-			float growthPercentage = ((baseTime - _timeToGrow) / baseTime) * 100;
+			float growthPercentage = ((baseGrowthTimer - _timeToGrow) / baseGrowthTimer) * 100;
 			float milestone = ((_currentState + 1) * (100 / _growthSprites.Count));
 			if (growthPercentage > milestone && _lastMilestone < milestone)
 			{
 				milestone = _lastMilestone;
-				return _growthSprites[++_currentState];
+				++_currentState;
+				if (!_needsWater)
+				{
+					return _growthSprites[_currentState];
+				}	
 			}
 		}
 		else if(_timeBeforeWilting > 0)
@@ -69,6 +94,19 @@ public class Vegetable : Salable
 				return _wiltedSprite;
 			}
 		}
+		return null;
+	}
+
+	public Sprite CheckHarvest(float waterTimer)
+	{
+		_waterTimer = waterTimer;
+		if (_needsWater)
+		{
+			_needsWater = false;
+			Debug.Log(_currentState);
+			return _growthSprites[_currentState];
+		}
+		Debug.Log(_waterTimer);
 		return null;
 	}
 

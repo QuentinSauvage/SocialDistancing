@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Worm
   m_EditorClassIdentifier: 
   _name: Worm
-  _icon: {fileID: -6021946528368587567, guid: e0d6277adcc65434bbf777ea6a146376, type: 3}
+  _icon: {fileID: 7462709031001374631, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: bait_worm
-  _desc: A basic bait.
+  _desc: A bait that works for most of the fish.

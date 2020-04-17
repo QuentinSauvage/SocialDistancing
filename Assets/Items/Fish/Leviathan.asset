@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Leviathan
   m_EditorClassIdentifier: 
   _name: Leviathan
-  _icon: {fileID: 5887624320373733278, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  _icon: {fileID: 977947730785828369, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_leviathan
   _desc: A legendary fish.
   price: 0
@@ -21,7 +21,9 @@ MonoBehaviour:
   _canBeFishedNotRaining: 1
   _needBait: 1
   _workingBait:
-  - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
+  - {fileID: 11400000, guid: 538e1a40cf3f0b845b6a6964fe18ae1c, type: 2}
+  - {fileID: 11400000, guid: a6af60a96c3fedf48bfa9416e0f3898c, type: 2}
+  - {fileID: 11400000, guid: af633e21cd44b7f4b99d5307f619f82d, type: 2}
   _beginHour: 10
   _endHour: 11
   _minWaitSecond: 3

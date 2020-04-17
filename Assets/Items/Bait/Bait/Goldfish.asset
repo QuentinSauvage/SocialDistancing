@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Goldfish
   m_EditorClassIdentifier: 
   _name: Goldfish
-  _icon: {fileID: 0}
+  _icon: {fileID: 2849512858085721194, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: bait_goldfish
-  _desc: A basic bait.
+  _desc: Pikes loves goldfish.

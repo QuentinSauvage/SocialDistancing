@@ -26,7 +26,7 @@ public class VegetableObject : MonoBehaviour
 
 	public void UpdateGrowth(bool raining)
 	{
-		Sprite newSprite = _instance.UpdateGrowth(raining, _vegetable.TimeToGrow);
+		Sprite newSprite = _instance.UpdateGrowth(raining, _vegetable.TimeToGrow, _vegetable.WaterTimer);
 		if(newSprite != null)
 		{
 			_spriteRenderer.sprite = newSprite;
@@ -42,6 +42,12 @@ public class VegetableObject : MonoBehaviour
 		else if(_instance.State == -1)
 		{
 			return -1;
+		}
+		Sprite s = _instance.CheckHarvest(_vegetable.WaterTimer);
+
+		if(s != null)
+		{
+			_spriteRenderer.sprite = s;
 		}
 		return 0;
 	}

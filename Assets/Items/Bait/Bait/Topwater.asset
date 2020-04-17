@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Topwater
   m_EditorClassIdentifier: 
   _name: Topwater
-  _icon: {fileID: 0}
+  _icon: {fileID: 7736144679906275455, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: bait_topwater
-  _desc: A basic bait.
+  _desc: A good bait for medium fish.

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WhiteShark
   m_EditorClassIdentifier: 
   _name: WhiteShark
-  _icon: {fileID: 0}
+  _icon: {fileID: 977947730785828369, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_whiteshark
   _desc: A legendary fish.
   price: 12000
@@ -23,6 +23,7 @@ MonoBehaviour:
   _workingBait:
   - {fileID: 11400000, guid: 538e1a40cf3f0b845b6a6964fe18ae1c, type: 2}
   - {fileID: 11400000, guid: a6af60a96c3fedf48bfa9416e0f3898c, type: 2}
+  - {fileID: 11400000, guid: af633e21cd44b7f4b99d5307f619f82d, type: 2}
   _beginHour: 0
   _endHour: 0
   _minWaitSecond: 0

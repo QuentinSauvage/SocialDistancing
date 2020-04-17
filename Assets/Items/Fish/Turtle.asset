@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Turtle
   m_EditorClassIdentifier: 
   _name: Turtle
-  _icon: {fileID: 0}
+  _icon: {fileID: 2390645090118898584, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_turtle
   _desc: An epic fish.
   price: 3000

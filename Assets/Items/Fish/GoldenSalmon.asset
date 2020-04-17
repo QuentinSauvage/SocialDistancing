@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoldenSalmon
   m_EditorClassIdentifier: 
   _name: Golden Salmon
-  _icon: {fileID: 0}
+  _icon: {fileID: 7264745855097775082, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_goldensalmon
   _desc: A legendary fish.
   price: 0

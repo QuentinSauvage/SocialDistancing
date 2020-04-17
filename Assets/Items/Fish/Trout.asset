@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trout
   m_EditorClassIdentifier: 
   _name: Trout
-  _icon: {fileID: 0}
+  _icon: {fileID: 4105837612702107123, guid: cc4ed48aaae4d2d4c867ffcd4731a5ad, type: 3}
   _id: fish_trout
   _desc: A commun fish.
   price: 400
