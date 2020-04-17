@@ -3533,6 +3533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sellingController: {fileID: 1212274455}
+  _buyingController: {fileID: 1308993015}
   _fishingController:
     _fishDatabase: {fileID: 11400000, guid: d74feca69eddac54ebbdb8bcb3fc17cc, type: 2}
     _beginEvent:

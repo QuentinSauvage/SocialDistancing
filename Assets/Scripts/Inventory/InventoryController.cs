@@ -265,6 +265,8 @@ public class InventoryController : MonoBehaviour
 			_gameController.Player.Freeze();
 		}
 		_inventory.IsVisible = !_inventory.IsVisible;
+
+        if (!_inventory.IsVisible) _tooltip.gameObject.SetActive(false);
 	}
 
     private void UpdateSelectorPosition(InputAction.CallbackContext context)
