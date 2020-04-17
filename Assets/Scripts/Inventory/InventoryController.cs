@@ -71,11 +71,11 @@ public class InventoryController : MonoBehaviour
     [SerializeField] TMPro.TextMeshProUGUI _uiMoney;
 
     [SerializeField] ToolTipUI _tooltip;
+	public ItemDatabase itemDatabase;
 
 #if UNITY_EDITOR
-    [Header("DEBUG")]
-    public ItemDatabase itemDatabase;
-
+	#region Debug
+	public GameObject _debug;
     [ContextMenu("Add 50 pumpkins")]
     void Add50Pumpkins()
     {
@@ -151,9 +151,10 @@ public class InventoryController : MonoBehaviour
     {
         Debug.Log("remove return: " + RemoveItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 20));
     }
+	#endregion
 #endif
 
-    void Awake()
+	void Awake()
     {
         Debug.Assert(_pslot != null, "Inventory need a slot prefab");
         Debug.Assert(_uiSelector != null, "Inventory Bar need a selector");
@@ -178,6 +179,7 @@ public class InventoryController : MonoBehaviour
     void Start()
     {
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
+		UpdateMouseCursor();
 		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
 		_inventory.IsVisible = false;
 
@@ -256,14 +258,6 @@ public class InventoryController : MonoBehaviour
 	// Handles the inventory visibility without needing a CallbackContext
 	public void ToggleInventory2()
 	{
-		if(_gameController.Player.FrozenState)
-		{
-			_gameController.Player.UnFreeze();
-		}
-		else
-		{
-			_gameController.Player.Freeze();
-		}
 		_inventory.IsVisible = !_inventory.IsVisible;
 
         if (!_inventory.IsVisible) _tooltip.gameObject.SetActive(false);

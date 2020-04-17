@@ -96,6 +96,7 @@ public class FishingController
 
     public void SecondPressed(GameController gController)
     {
+		Debug.Log("oui");
         if (gController.GetBarSelectedStack()._nbItem == 0 || gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
         {
             return;

@@ -166,29 +166,38 @@ public class GameController : MonoBehaviour
 	public void OnCloseMenu(InputAction.CallbackContext context)
 	{
         bool closedSomething = false;
+		int nbOpen = 0;
 		if(_inventoryController.Inventory.IsVisible)
 		{
+			++nbOpen;
             closedSomething = true;
-            _inventoryController.ToggleInventory2();
+			_inventoryController.ToggleInventory2();
 		}
         if(_fishingController.UI.IsVisible)
         {
-            closedSomething = true;
+			++nbOpen;
+			closedSomething = true;
             _fishingController.UI.Toggle(null);
         }
         if(_sellingController.IsVisible)
         {
-            closedSomething = true;
+			++nbOpen;
+			closedSomething = true;
             _sellingController.Toggle();
         }
         if(_buyingController.IsVisible)
         {
-            closedSomething = true;
+			++nbOpen;
+			closedSomething = true;
             _buyingController.Toggle();
         }
 		if (!closedSomething)
 		{
 			OnPause2();
+		}
+		if (nbOpen > 0 && closedSomething)
+		{
+			Player.UnFreeze();
 		}
 	}
 
