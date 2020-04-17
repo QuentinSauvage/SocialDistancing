@@ -13,6 +13,8 @@ public class SellingController : MonoBehaviour
 
     [SerializeField] private TMPro.TextMeshProUGUI _sellButtonText;
 
+    public bool IsVisible { get { return gameObject.activeInHierarchy; } }
+
     private int CurrentPrice;
 
     public void Awake()
@@ -43,6 +45,11 @@ public class SellingController : MonoBehaviour
 
         _inventoryController.Money = _inventoryController.Money + CurrentPrice;
         UpdatePrice();
+    }
+
+    public void Toggle()
+    {
+        gameObject.SetActive(!gameObject.activeInHierarchy);
     }
 
     private void UpdatePrice()

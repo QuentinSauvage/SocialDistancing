@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour
 	TimeManager _timeManager;
 	InventoryController _inventoryController;
 	TileManager _tileManager;
-    //ShopManager _shopManager;
+    [SerializeField] SellingController _sellingController;
 
     [SerializeField] FishingController _fishingController;
 	GardenController _gardenController;
@@ -62,7 +62,6 @@ public class GameController : MonoBehaviour
 
         //set fishing rod ui event
         _fishingController.UI.SetOnclick(_inventoryController.SlotClicked);
-
     }
 
     // Update is called once per frame
@@ -173,6 +172,11 @@ public class GameController : MonoBehaviour
         {
             closedSomething = true;
             _fishingController.UI.Toggle(null);
+        }
+        if(_sellingController.IsVisible)
+        {
+            closedSomething = true;
+            _sellingController.Toggle();
         }
 		if (!closedSomething)
 		{
