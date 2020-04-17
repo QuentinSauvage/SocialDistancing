@@ -15,5 +15,6 @@ MonoBehaviour:
   _name: Rod
   _icon: {fileID: 4162325491956477460, guid: 2a2a09de5c95ddd4fbd2131ffefc9ed9, type: 3}
   _id: fishingrod_rod
+  _desc: A basic fishing rod.
   _bait: {fileID: 0}
   _bonusBait: {fileID: 0}

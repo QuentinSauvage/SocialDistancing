@@ -12,6 +12,8 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public delegate void Clicked(InventorySlot slot, PointerEventData clickEvent);
     public Clicked _clicked;
+    public Clicked _hover;
+    public Clicked _stopHover;
 
     [SerializeField]
     private RectTransform _transform;
@@ -27,14 +29,14 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private UnityEngine.UI.Text _nb;
 
     [SerializeField]
-    private Color _selectedColor;
+    private Sprite _selectedSprite;
 
     [SerializeField]
-    private Color _color;
+    private Sprite _sprite;
 
     private void Awake()
     {
-        _background.color = _color;
+        _background.sprite = _sprite;
     }
 
     /// <summary>
@@ -140,12 +142,15 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _background.color = _selectedColor;
+        _background.sprite = _selectedSprite;
+        _hover(this,eventData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _background.color = _color;
+        if (_transform.rect.Contains(eventData.position)) return;
+        _background.sprite = _sprite;
+        _stopHover(this,eventData);
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -155,7 +160,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private void OnDisable()
     {
-        _background.color = _color;
+        _background.sprite = _sprite;
     }
 
     public void UpdateSlot()
@@ -175,4 +180,5 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 
     }
+
 }

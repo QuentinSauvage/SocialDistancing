@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Eel
   _icon: {fileID: 0}
   _id: fish_eel
+  _desc: An epic fish.
   price: 2000
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 0

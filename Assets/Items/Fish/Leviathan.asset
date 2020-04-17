@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Leviathan
   _icon: {fileID: 5887624320373733278, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: fish_leviathan
+  _desc: A legendary fish.
   price: 0
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1

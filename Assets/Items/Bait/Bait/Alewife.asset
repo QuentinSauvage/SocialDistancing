@@ -15,3 +15,4 @@ MonoBehaviour:
   _name: Alewife
   _icon: {fileID: 0}
   _id: bait_alewife
+  _desc: A basic bait.

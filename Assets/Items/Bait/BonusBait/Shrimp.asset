@@ -15,6 +15,8 @@ MonoBehaviour:
   _name: Shrimp
   _icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   _id: bonusbait_shrimp
+  _desc: A bait that let you ignore any condition about time or weather to catch
+    certain fish.
   _bonusPercentWaitTime: 0
   _bonusIgnoreHour: 1
   _bonusIgnoreWeather: 1

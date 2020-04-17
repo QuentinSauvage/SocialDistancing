@@ -22,7 +22,7 @@ public class InventoryElement
 
     public bool IsVisible { get { return _rectTransform.gameObject.activeInHierarchy; } set { _rectTransform.gameObject.SetActive(value); } }
 
-    public void Start(GameObject pslot, InventorySlot.Clicked clicked)
+    public void Start(GameObject pslot, InventorySlot.Clicked clicked, InventorySlot.Clicked hover, InventorySlot.Clicked stopHover)
     {
         OnAddingItem += () => {  };
         OnRemovingItem += () => {  };
@@ -34,6 +34,8 @@ public class InventoryElement
 
             _slots.Add(slot.GetComponent<InventorySlot>());
             _slots[i]._clicked = clicked;
+            _slots[i]._hover = hover;
+            _slots[i]._stopHover = stopHover;
             _slots[i].AddingItemEvent.AddListener(OnAddingItem);
             _slots[i].RemovingItemEvent.AddListener(OnRemovingItem);
             _slots[i]._stack = new InventoryController.Stack();

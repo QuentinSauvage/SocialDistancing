@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: debug_legend
   _icon: {fileID: 2849512858085721194, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: bonusbait_debug_legend
+  _desc: A debug bait. You shouldn't have this.
   _bonusPercentWaitTime: 0
   _bonusIgnoreHour: 0
   _bonusIgnoreWeather: 0

@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Squid
   _icon: {fileID: 0}
   _id: fish_squid
+  _desc: A rare fish.
   price: 550
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 0

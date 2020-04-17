@@ -15,3 +15,4 @@ MonoBehaviour:
   _name: Worm
   _icon: {fileID: -6021946528368587567, guid: e0d6277adcc65434bbf777ea6a146376, type: 3}
   _id: bait_worm
+  _desc: A basic bait.

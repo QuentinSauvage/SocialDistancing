@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Football
   _icon: {fileID: 0}
   _id: fish_football
+  _desc: A legendary fish.
   price: 9000
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1

@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Catfish
   _icon: {fileID: 0}
   _id: fish_catfish
+  _desc: A commun fish.
   price: 450
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1

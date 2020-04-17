@@ -88,12 +88,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95343e0b6139d8440a3aa1598d9eb579, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AddingItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  RemovingItemEvent:
+    m_PersistentCalls:
+      m_Calls: []
   _transform: {fileID: 7469942732533102659}
   _background: {fileID: 7701235640982422396}
   _image: {fileID: 3058032395335211888}
   _nb: {fileID: 3396568432317093522}
-  _selectedColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
-  _color: {r: 1, g: 1, b: 1, a: 1}
+  _selectedSprite: {fileID: 5707218116961789024, guid: 20c939deb7326bd4b8d4c257b3ea5382,
+    type: 3}
+  _sprite: {fileID: 3556181715638617739, guid: 20c939deb7326bd4b8d4c257b3ea5382, type: 3}
 --- !u!1 &2194663967952722099
 GameObject:
   m_ObjectHideFlags: 0

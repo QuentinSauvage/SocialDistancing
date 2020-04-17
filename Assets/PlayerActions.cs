@@ -159,6 +159,22 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""CursorPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""f7f40d57-af27-49af-b644-36260bc43fb9"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ShowDescritpion"",
+                    ""type"": ""Button"",
+                    ""id"": ""95b02dc6-6b0d-4191-a860-7c86e7a858ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -181,6 +197,28 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02bc7502-74b7-4f40-ad65-5f8003f16cef"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CursorPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ed4948d-1c87-4b9d-b975-7d089f9e9f2d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowDescritpion"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -332,6 +370,8 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         m_Inventory = asset.FindActionMap("Inventory", throwIfNotFound: true);
         m_Inventory_MoveBarSelector = m_Inventory.FindAction("MoveBarSelector", throwIfNotFound: true);
         m_Inventory_ToggleInventory = m_Inventory.FindAction("ToggleInventory", throwIfNotFound: true);
+        m_Inventory_CursorPosition = m_Inventory.FindAction("CursorPosition", throwIfNotFound: true);
+        m_Inventory_ShowDescritpion = m_Inventory.FindAction("ShowDescritpion", throwIfNotFound: true);
         // PlayerAction
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
@@ -423,12 +463,16 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private IInventoryActions m_InventoryActionsCallbackInterface;
     private readonly InputAction m_Inventory_MoveBarSelector;
     private readonly InputAction m_Inventory_ToggleInventory;
+    private readonly InputAction m_Inventory_CursorPosition;
+    private readonly InputAction m_Inventory_ShowDescritpion;
     public struct InventoryActions
     {
         private @PlayerActions m_Wrapper;
         public InventoryActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @MoveBarSelector => m_Wrapper.m_Inventory_MoveBarSelector;
         public InputAction @ToggleInventory => m_Wrapper.m_Inventory_ToggleInventory;
+        public InputAction @CursorPosition => m_Wrapper.m_Inventory_CursorPosition;
+        public InputAction @ShowDescritpion => m_Wrapper.m_Inventory_ShowDescritpion;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -444,6 +488,12 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @ToggleInventory.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
                 @ToggleInventory.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
                 @ToggleInventory.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnToggleInventory;
+                @CursorPosition.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCursorPosition;
+                @CursorPosition.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCursorPosition;
+                @CursorPosition.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnCursorPosition;
+                @ShowDescritpion.started -= m_Wrapper.m_InventoryActionsCallbackInterface.OnShowDescritpion;
+                @ShowDescritpion.performed -= m_Wrapper.m_InventoryActionsCallbackInterface.OnShowDescritpion;
+                @ShowDescritpion.canceled -= m_Wrapper.m_InventoryActionsCallbackInterface.OnShowDescritpion;
             }
             m_Wrapper.m_InventoryActionsCallbackInterface = instance;
             if (instance != null)
@@ -454,6 +504,12 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @ToggleInventory.started += instance.OnToggleInventory;
                 @ToggleInventory.performed += instance.OnToggleInventory;
                 @ToggleInventory.canceled += instance.OnToggleInventory;
+                @CursorPosition.started += instance.OnCursorPosition;
+                @CursorPosition.performed += instance.OnCursorPosition;
+                @CursorPosition.canceled += instance.OnCursorPosition;
+                @ShowDescritpion.started += instance.OnShowDescritpion;
+                @ShowDescritpion.performed += instance.OnShowDescritpion;
+                @ShowDescritpion.canceled += instance.OnShowDescritpion;
             }
         }
     }
@@ -531,6 +587,8 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     {
         void OnMoveBarSelector(InputAction.CallbackContext context);
         void OnToggleInventory(InputAction.CallbackContext context);
+        void OnCursorPosition(InputAction.CallbackContext context);
+        void OnShowDescritpion(InputAction.CallbackContext context);
     }
     public interface IPlayerActionActions
     {

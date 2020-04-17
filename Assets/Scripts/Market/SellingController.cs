@@ -23,7 +23,7 @@ public class SellingController : MonoBehaviour
         _inventoryElement.OnAddingItem += UpdatePrice;
         _inventoryElement.OnRemovingItem += UpdatePrice;
 
-        _inventoryElement.Start(_pslot,_inventoryController.SlotClicked);
+        _inventoryElement.Start(_pslot,_inventoryController.SlotClicked,_inventoryController.SlotHover, _inventoryController.SlotStopHover);
 
         UpdatePrice();
     }

@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Sardine
   _icon: {fileID: 0}
   _id: fish_sardine
+  _desc: A commun fish.
   price: 200
   _canBeFishedRaining: 0
   _canBeFishedNotRaining: 1

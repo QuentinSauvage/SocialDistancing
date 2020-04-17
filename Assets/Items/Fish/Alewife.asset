@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Alewife
   _icon: {fileID: 0}
   _id: fish_alewife
+  _desc: A commun fish.
   price: 400
   _canBeFishedRaining: 0
   _canBeFishedNotRaining: 1

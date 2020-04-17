@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Crocodile
   _icon: {fileID: 0}
   _id: fish_crocodile
+  _desc: A legendary fish.
   price: 16000
   _canBeFishedRaining: 0
   _canBeFishedNotRaining: 0

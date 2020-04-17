@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Turtle
   _icon: {fileID: 0}
   _id: fish_turtle
+  _desc: An epic fish.
   price: 3000
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 0

@@ -13220,7 +13220,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272071185}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: 1, z: -10}
+  m_LocalPosition: {x: -3.16187, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16421,6 +16421,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1935428909, guid: 244480609d0c9b14ab607d4d16d3ad8e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935428909, guid: 244480609d0c9b14ab607d4d16d3ad8e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e653dc196add7d14d9537004e0ebf177,
+        type: 2}
+    - target: {fileID: 2001901329, guid: 244480609d0c9b14ab607d4d16d3ad8e, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: e653dc196add7d14d9537004e0ebf177,
+        type: 2}
+    - target: {fileID: 2001901329, guid: 244480609d0c9b14ab607d4d16d3ad8e, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6357265254679268859, guid: 244480609d0c9b14ab607d4d16d3ad8e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16480,11 +16498,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Inventory
-      objectReference: {fileID: 0}
-    - target: {fileID: 6357265254837490093, guid: 244480609d0c9b14ab607d4d16d3ad8e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 244480609d0c9b14ab607d4d16d3ad8e, type: 3}

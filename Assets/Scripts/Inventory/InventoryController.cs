@@ -68,6 +68,8 @@ public class InventoryController : MonoBehaviour
     //private float _barSlotSize;
     [SerializeField] InventoryElement _bar;
 
+    [SerializeField] ToolTipUI _tooltip;
+
 #if UNITY_EDITOR
     [Header("DEBUG")]
     public ItemDatabase itemDatabase;
@@ -158,9 +160,12 @@ public class InventoryController : MonoBehaviour
         _playerActions = new PlayerActions();
         _playerActions.Inventory.MoveBarSelector.performed += UpdateSelectorPosition;
         _playerActions.Inventory.ToggleInventory.performed += ToggleInventory;
+        _playerActions.Inventory.CursorPosition.performed += (InputAction.CallbackContext ctx) => { _tooltip.Postion = ctx.ReadValue<Vector2>(); };
+        _playerActions.Inventory.ShowDescritpion.started += (InputAction.CallbackContext ctx) => { _tooltip.ShowDescription(); };
+        _playerActions.Inventory.ShowDescritpion.canceled += (InputAction.CallbackContext ctx) => { _tooltip.HideDescription(); };
 
-        _bar.Start(_pslot, SlotClicked);
-        _inventory.Start(_pslot, SlotClicked);
+        _bar.Start(_pslot, SlotClicked,SlotHover,SlotStopHover);
+        _inventory.Start(_pslot, SlotClicked,SlotHover, SlotStopHover);
 
         _mouseStack = new Stack();
 
@@ -321,6 +326,22 @@ public class InventoryController : MonoBehaviour
 
         UpdateMouseCursor();
 
+    }
+
+    public void SlotHover(InventorySlot slot, UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        if (slot._stack._nbItem != 0 && slot._stack._item != null)
+        {
+            _tooltip.Item = slot._stack._item;
+            _tooltip.gameObject.SetActive(true);
+
+            //_tooltip.Postion = eventData.position;
+        }
+    }
+
+    public void SlotStopHover(InventorySlot slot, UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        _tooltip.gameObject.SetActive(false);
     }
 
     void OnEnable()

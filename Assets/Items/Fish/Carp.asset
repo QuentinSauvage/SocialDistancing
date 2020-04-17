@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Carp
   _icon: {fileID: 0}
   _id: fish_carp
+  _desc: A rare fish.
   price: 600
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1

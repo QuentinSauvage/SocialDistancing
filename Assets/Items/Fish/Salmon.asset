@@ -15,6 +15,7 @@ MonoBehaviour:
   _name: Salmon
   _icon: {fileID: 42295083217531214, guid: 775aa08cf8e113e4a9510f8326080c75, type: 3}
   _id: fish_salmon
+  _desc: A commun fish.
   price: 0
   _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1

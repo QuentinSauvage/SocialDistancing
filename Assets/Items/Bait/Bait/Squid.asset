@@ -15,3 +15,4 @@ MonoBehaviour:
   _name: Squid
   _icon: {fileID: 0}
   _id: bait_squid
+  _desc: A basic bait.
