@@ -27,7 +27,7 @@ public class Fish : Salable
     public enum FishRarity { COMMUN,RARE,EPIC,LEGEND};
     [SerializeField] FishRarity _rarity;
     public FishRarity Rarity { get { return _rarity; } }
-    
+
     private bool IsGoodHour(int hour) { return hour >= _beginHour && hour <= _endHour; }
     private bool IsGoodWeather(bool isRaining) { return (isRaining && _canBeFishedRaining) || (!isRaining && _canBeFishedNotRaining); }
     private bool IsGoodBait(Bait bait)
