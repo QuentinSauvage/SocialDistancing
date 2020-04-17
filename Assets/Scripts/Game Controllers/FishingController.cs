@@ -14,7 +14,7 @@ public class FishingController
 {
     [SerializeField] private FishDatabase _fishDatabase;
 
-    public UnityEvent _beginEvent;
+	public UnityEvent _beginEvent;
     public HookEvent _hookEvent;
     public SuccessEvent _succesEvent;
     public UnityEvent _failEvent;

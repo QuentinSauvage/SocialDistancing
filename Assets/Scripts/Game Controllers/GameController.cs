@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
 		_tileManager = GetComponent<TileManager>();
 
         //listen to the events
-        _fishingController._hookEvent.AddListener((Fish.FishRarity rarity) => { Debug.Log($"need hooking for {rarity.ToString()}");/**need player animation and sound*/ });
+        _fishingController._hookEvent.AddListener((Fish.FishRarity rarity) => { _playerController.OnStartHooking((int) rarity); });
         _fishingController._succesEvent.AddListener((Fish fish) => { Debug.Log($"Success fishing the {fish.Name}"); _inventoryController.AddItem(fish, 1); });
         _fishingController._failEvent.AddListener(() => { Debug.Log($"Didn't hook at time or hook to soon"); /**need sad animation and sound**/ });
 
