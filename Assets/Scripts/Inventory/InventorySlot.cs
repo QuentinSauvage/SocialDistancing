@@ -153,6 +153,11 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         _clicked(this,eventData);
     }
 
+    private void OnDisable()
+    {
+        _background.color = _color;
+    }
+
     public void UpdateSlot()
     {
         if (_stack._nbItem != 0)
