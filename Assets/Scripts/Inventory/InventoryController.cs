@@ -259,8 +259,8 @@ public class InventoryController : MonoBehaviour
 	public void ToggleInventory2()
 	{
 		_inventory.IsVisible = !_inventory.IsVisible;
-
-        if (!_inventory.IsVisible) _tooltip.gameObject.SetActive(false);
+		GameController._inventoryOpened = _inventory.IsVisible;
+		if (!_inventory.IsVisible) _tooltip.gameObject.SetActive(false);
 	}
 
     private void UpdateSelectorPosition(InputAction.CallbackContext context)

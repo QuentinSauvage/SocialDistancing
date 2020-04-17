@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
 	GardenController _gardenController;
 
 	public static bool _gamePaused;
+	public static bool _inventoryOpened;
 	[SerializeField] GameObject _pauseMenu;
 
 	// Used to know what has been hit by the ray
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     {
 		_gamePaused = false;
 		_pauseMenu.SetActive(false);
+		_inventoryOpened = false;
 
 		// Retrieves the player controller
 		GameObject player = GameObject.Find("Player");
@@ -167,10 +169,11 @@ public class GameController : MonoBehaviour
 	{
         bool closedSomething = false;
 		int nbOpen = 0;
-		if(_inventoryController.Inventory.IsVisible)
+		if(_inventoryOpened)
 		{
 			++nbOpen;
             closedSomething = true;
+			_inventoryOpened = false;
 			_inventoryController.ToggleInventory2();
 		}
         if(_fishingController.UI.IsVisible)
@@ -210,7 +213,7 @@ public class GameController : MonoBehaviour
 	// Function called by using a key or a button
 	public void OnPause2()
 	{
-		if(!_inventoryController.Inventory.IsVisible)
+		if(!_inventoryOpened)
 		{
 			Time.timeScale = (_gamePaused) ? 1 : 0;
 			_gamePaused = !_gamePaused;
