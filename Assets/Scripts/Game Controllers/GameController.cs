@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
 	InventoryController _inventoryController;
 	TileManager _tileManager;
     [SerializeField] SellingController _sellingController;
+    [SerializeField] BuyingController _buyingController;
 
     [SerializeField] FishingController _fishingController;
 	GardenController _gardenController;
@@ -177,6 +178,11 @@ public class GameController : MonoBehaviour
         {
             closedSomething = true;
             _sellingController.Toggle();
+        }
+        if(_buyingController.IsVisible)
+        {
+            closedSomething = true;
+            _buyingController.Toggle();
         }
 		if (!closedSomething)
 		{

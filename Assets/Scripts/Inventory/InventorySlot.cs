@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private UnityEngine.UI.Image _image;
 
     [SerializeField]
-    private UnityEngine.UI.Text _nb;
+    private TMPro.TextMeshProUGUI _nb;
 
     [SerializeField]
     private Sprite _selectedSprite;

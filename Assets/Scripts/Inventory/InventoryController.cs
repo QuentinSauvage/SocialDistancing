@@ -27,7 +27,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] public static int MAX_ITEM_PER_STACK=99;
 
     private int _money;
-    public int Money { get { return _money;} set { _money = value; } }
+    public int Money { get { return _money;} set { _money = value; _uiMoney.text = "" + _money; } }
 
     private Stack _mouseStack;
 
@@ -67,6 +67,8 @@ public class InventoryController : MonoBehaviour
 
     //private float _barSlotSize;
     [SerializeField] InventoryElement _bar;
+
+    [SerializeField] TMPro.TextMeshProUGUI _uiMoney;
 
     [SerializeField] ToolTipUI _tooltip;
 
@@ -178,6 +180,8 @@ public class InventoryController : MonoBehaviour
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
 		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
 		_inventory.IsVisible = false;
+
+        Money = 250;
 	}
 
     /*** callabable method to add or remove item ***/
