@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
+        _playerActions.PlayerAction.SecondAction.performed += CheckAction;
 		_playerActions.PlayerAction.Pause.performed += _gameController.OnPause;
 		_playerActions.PlayerAction.CloseMenu.performed += _gameController.OnCloseMenu;
 		_playerActions.PlayerAction.SkipTime.started += _gameController.OnStartSkippingTime;
@@ -69,73 +70,73 @@ public class PlayerController : MonoBehaviour
         _frozen = false;
     }
 
-	void FixedUpdate()
-	{
-        if (!_frozen)
-        {
-            float x = _movementAction.x * _speed * Time.deltaTime;
-            float y = _movementAction.y * _speed * Time.deltaTime;
-            Vector3 move = new Vector3(x, y, 0);
+    void FixedUpdate()
+    {
 
-            // idle
-            if (y == 0 && x == 0)
+
+        float x = _movementAction.x * _speed * Time.deltaTime;
+        float y = _movementAction.y * _speed * Time.deltaTime;
+        Vector3 move = new Vector3(x, y, 0);
+
+        // idle
+        if ((y == 0 && x == 0 )|| _frozen)
+        {
+            if (!_idle)
             {
-                if (!_idle)
+                _idleTimer += Time.deltaTime;
+                if (_idleTimer > 2)
                 {
-                    _idleTimer += Time.deltaTime;
-                    if (_idleTimer > 2)
-                    {
-                        _idle = true;
-                        _gameController.DisplayTime();
-                    }
+                    _idle = true;
+                    _gameController.DisplayTime();
                 }
             }
-            else
+        }
+        else
+        {
+            if (_idle)
             {
-                if (_idle)
-                {
-                    _idle = false;
-                    _gameController.HideTime();
-                }
-                //vertical move
-                if (y != 0)
-                {
-                    _animator.SetFloat("MoveX", 0);
-                    _animator.SetFloat("MoveY", y);
-                    _idleTimer = 0;
+                _idle = false;
+                _gameController.HideTime();
+            }
+            //vertical move
+            if (y != 0)
+            {
+                _animator.SetFloat("MoveX", 0);
+                _animator.SetFloat("MoveY", y);
+                _idleTimer = 0;
 
-                    if (y > 0)
-                    {
-                        _facingDirection = Vector3Int.up;
-                    }
-                    else
-                    {
-                        _facingDirection = Vector3Int.down;
-                    }
+                if (y > 0)
+                {
+                    _facingDirection = Vector3Int.up;
                 }
-                // horizontal move 
                 else
                 {
-                    _animator.SetFloat("MoveX", x);
-                    _animator.SetFloat("MoveY", 0);
-                    _idleTimer = 0;
-
-                    if (x > 0)
-                    {
-                        _facingDirection = Vector3Int.right;
-                    }
-                    else
-                    {
-                        _facingDirection = Vector3Int.left;
-                    }
+                    _facingDirection = Vector3Int.down;
                 }
             }
-            _animator.SetFloat("Speed", move.magnitude);
-            move += transform.position;
+            // horizontal move 
+            else
+            {
+                _animator.SetFloat("MoveX", x);
+                _animator.SetFloat("MoveY", 0);
+                _idleTimer = 0;
 
-            _rigidbody2D.MovePosition(move);
+                if (x > 0)
+                {
+                    _facingDirection = Vector3Int.right;
+                }
+                else
+                {
+                    _facingDirection = Vector3Int.left;
+                }
+            }
         }
-	}
+        _animator.SetFloat("Speed", move.magnitude);
+        move += transform.position;
+
+        _rigidbody2D.MovePosition(move);
+
+    }
 
 	void OnEnable()
 	{
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 vv = center + _facingDirection;
 		RaycastHit2D hit = Physics2D.Raycast(center, vv, 1, _layerMask);
 
-		_gameController.CheckAction(target, hit);
+        Debug.Log(context.action.name);
+		_gameController.CheckAction(target, hit, context.action.name== "SecondAction");
 	}
 }

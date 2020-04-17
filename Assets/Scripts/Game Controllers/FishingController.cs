@@ -19,6 +19,9 @@ public class FishingController
     public SuccessEvent _succesEvent;
     public UnityEvent _failEvent;
 
+    [SerializeField] private FishingRodUI _ui;
+    public FishingRodUI UI { get { return _ui; } }
+
     private bool _fishing;
     private bool _hooking;
     private Fish _fish;
@@ -29,10 +32,16 @@ public class FishingController
 
     private Coroutine _coroutine;
 
-    private Fish RandomFish()
+    private Fish RandomFish(BonusBait bonusBait)
     {
-        float rand = Random.Range(0, 1f);
-        Fish.FishRarity rarity = (rand < 0.1f ? Fish.FishRarity.LEGEND : rand < 0.25f ? Fish.FishRarity.EPIC : rand < 0.5f ? Fish.FishRarity.RARE : Fish.FishRarity.COMMUN);
+        Fish.FishRarity rarity;
+        if (bonusBait == null || !bonusBait.BonusForceRarity)
+        {
+            float rand = Random.Range(0, 1f);
+            rarity = (rand < 0.1f ? Fish.FishRarity.LEGEND : rand < 0.25f ? Fish.FishRarity.EPIC : rand < 0.5f ? Fish.FishRarity.RARE : Fish.FishRarity.COMMUN);
+        }
+        else
+            rarity = bonusBait.BonusRarity;
         List<Fish> possibleFish = _fishList.FindAll((Fish f) => { return f.Rarity == rarity; });
         if (possibleFish.Count != 0)
         {
@@ -42,15 +51,16 @@ public class FishingController
             return _fishList[Random.Range(0, possibleFish.Count)];
     }
 
-    private IEnumerator Fishing(bool isRainig, int hour, Bait bait)
+    private IEnumerator Fishing(bool isRainig, int hour, Bait bait, BonusBait bonusBait)
     {
         _beginEvent.Invoke();
         _fishing = true;
-        _fishDatabase.GetPossibleFish(isRainig, hour, bait, _fishList);
+        _fishDatabase.GetPossibleFish(isRainig, hour, bait, bonusBait, _fishList);
+        Debug.Assert(_fishList.Count != 0);
         yield return 0; //wait next frame
-        _fish = RandomFish();
-        Debug.Assert(_fish != null);
-        yield return new WaitForSecondsRealtime(_fish.GetWaitSecond());
+        _fish = RandomFish(bonusBait);
+        float wait = _fish.GetWaitSecond();
+        yield return new WaitForSecondsRealtime(wait - (bonusBait!=null?wait*bonusBait.BonusPercentWaitTime:0));
         _hooking = true;
         _hookEvent.Invoke(_fish.Rarity);
         yield return new WaitForSecondsRealtime(_fish.HookSecond);
@@ -60,9 +70,14 @@ public class FishingController
 
     public void ActionPressed(GameController gController)
     {
-        if(!_fishing)
+        if(gController.GetBarSelectedStack()._nbItem == 0 || gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
         {
-            _coroutine = gController.StartCoroutine(Fishing(false,0,null));
+            return;
+        }
+        FishingRod rod = (FishingRod)gController.GetBarSelectedStack()._item;
+        if (!_fishing)
+        {
+            _coroutine = gController.StartCoroutine(Fishing(gController.IsRaining(),(int)gController.GetHour(),rod.Bait,rod.BonusBait));
         }
         else
         {
@@ -77,6 +92,16 @@ public class FishingController
             }
             _fish = null; _hooking = false; _fishing = false;
         }
+    }
+
+    public void SecondPressed(GameController gController)
+    {
+        if (gController.GetBarSelectedStack()._nbItem == 0 || gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
+        {
+            return;
+        }
+        FishingRod rod = (FishingRod)gController.GetBarSelectedStack()._item;
+        _ui.Toggle(rod);
     }
 
 }

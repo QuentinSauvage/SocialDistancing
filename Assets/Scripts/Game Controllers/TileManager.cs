@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class TileActionEvent : UnityEvent<bool> { }
+
 public class TileManager : MonoBehaviour
 {
 	private List<Tilemap> _tilemaps = new List<Tilemap>();
-	private Dictionary<string, System.Action> _actions = new Dictionary<string, System.Action>();
+	private Dictionary<string, System.Action<bool>> _actions = new Dictionary<string, System.Action<bool>>();
 
-    public UnityEvent _fishingEvent, _gardentEvent, _openDoorEvent, _readBoardEvent, _chopTreeEvent, _harvestEvent;
+    public TileActionEvent _fishingEvent, _gardentEvent, _openDoorEvent, _readBoardEvent, _chopTreeEvent, _harvestEvent;
 
 	// Start is called before the first frame update
 	void Awake()
@@ -27,13 +30,13 @@ public class TileManager : MonoBehaviour
 		}
 	}
 
-	public void CheckAction(Vector3Int target, RaycastHit2D hit, Item selectedItem)
+	public void CheckAction(Vector3Int target, RaycastHit2D hit, Item selectedItem, bool secondary=false)
 	{
 		if(hit.collider != null)
 		{
 			if (_actions.ContainsKey(hit.transform.gameObject.tag))
 			{
-				_actions[hit.transform.gameObject.tag]();
+				_actions[hit.transform.gameObject.tag](secondary);
 			}
 			return;
 		}
@@ -44,49 +47,49 @@ public class TileManager : MonoBehaviour
 			{
 				if (_actions.ContainsKey(t.name))
 				{
-					_actions[t.name]();
+					_actions[t.name](secondary);
 				}
 				else if(_actions.ContainsKey(tb.name))
 				{
-					_actions[tb.name]();
+					_actions[tb.name](secondary);
 				}
 			}
 		}
 	}
 
-	void DoFishing()
+	void DoFishing(bool secondary)
 	{
 		Debug.Log("I love fishing");
-        _fishingEvent.Invoke();
+        _fishingEvent.Invoke(secondary);
 	}
 
-	void PlantVegetable()
+	void PlantVegetable(bool secondary)
 	{
 		Debug.Log("I love vegetables");
-        _gardentEvent.Invoke();
+        _gardentEvent.Invoke(secondary);
 	}
 
-	void DoHarvest()
+	void DoHarvest(bool secondary)
 	{
 		Debug.Log("Harvest");
-		_harvestEvent.Invoke();
+		_harvestEvent.Invoke(secondary);
 	}
 
-	void OpenDoor()
+	void OpenDoor(bool secondary)
 	{
 		Debug.Log("I have no keys");
-        _openDoorEvent.Invoke();
+        _openDoorEvent.Invoke(secondary);
 	}
 
-	void ReadBoard()
+	void ReadBoard(bool secondary)
 	{
 		Debug.Log("I can't read");
-        _readBoardEvent.Invoke();
+        _readBoardEvent.Invoke(secondary);
 	}
 
-	void ChopTree()
+	void ChopTree(bool secondary)
 	{
 		Debug.Log("This tree is very specular");
-        _chopTreeEvent.Invoke();
+        _chopTreeEvent.Invoke(secondary);
 	}
 }

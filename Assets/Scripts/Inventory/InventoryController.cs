@@ -87,7 +87,6 @@ public class InventoryController : MonoBehaviour
     {
         AddItem(itemDatabase.GetItemByID("vegetable_pumpkin"), 10);
     }
-
     [ContextMenu("Add 50 salads")]
     void Add50Salads()
     {
@@ -102,6 +101,18 @@ public class InventoryController : MonoBehaviour
     void Add10Salads()
     {
         AddItem(itemDatabase.GetItemByID("vegetable_salad"), 10);
+    }
+    [ContextMenu("Add baits")]
+    void AddBaits()
+    {
+        AddItem(itemDatabase.GetItemByID("bait_worm"), 55);
+        AddItem(itemDatabase.GetItemByID("bonusbait_shrimp"), 41);
+        AddItem(itemDatabase.GetItemByID("bonusbait_debug_legend"), 10);
+    }
+    [ContextMenu("Add fishing rod")]
+    void AddRod()
+    {
+        AddItem(itemDatabase.GetItemByID("fishingrod_rod"),1);
     }
 
     [ContextMenu("Count Salads")]

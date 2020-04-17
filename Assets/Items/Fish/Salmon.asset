@@ -22,7 +22,7 @@ MonoBehaviour:
   _workingBait: []
   _beginHour: 0
   _endHour: 24
-  _minWaitSecond: 0
-  _maxWaitSecond: 0
-  _hookSecond: 0
+  _minWaitSecond: 1
+  _maxWaitSecond: 3
+  _hookSecond: 3
   _rarity: 0

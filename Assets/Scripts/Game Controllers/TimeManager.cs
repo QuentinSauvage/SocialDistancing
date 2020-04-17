@@ -62,6 +62,13 @@ public class TimeManager : MonoBehaviour
 
 	//************** END WEATHER HANDLING **************\\
 
+    //********** ACCESSOR ************\\
+
+    public float Hour { get { return _hour; } }
+    public bool IsRaining { get { return _weathers[_currentWeather].Name == "RAIN"; } }
+
+    //******** END ACCESSOR **********\\
+
 	private void Awake()
 	{
 		_audioSource = gameObject.AddComponent<AudioSource>();

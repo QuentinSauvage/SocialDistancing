@@ -34,7 +34,7 @@ public class Fish : Salable
     {
         if(_needBait)
         {
-            return bait != null && (_workingBait.Count == 0 || _workingBait.Contains(bait));
+            return bait != null && (_workingBait.Count == 0 || _workingBait.Exists((Bait b)=> { return b.ID == bait.ID; })) ;
         }
         else
         {
@@ -49,9 +49,9 @@ public class Fish : Salable
     /// <param name="bait">bait used, can be null</param>
     /// <param name="hour">hour of the game</param>
     /// <returns>true if the fish can be fished</returns>
-    public bool CanBeFished(bool isRaining, Bait bait, int hour)
+    public bool CanBeFished(bool isRaining, Bait bait, BonusBait bonusBait, int hour)
     {
-        return IsGoodHour(hour) && IsGoodWeather(isRaining) && IsGoodBait(bait);
+        return ((bonusBait!=null && bonusBait.BonusIgnoreHour)||IsGoodHour(hour)) && ((bonusBait != null && bonusBait.BonusIgnoreWeaher)||IsGoodWeather(isRaining)) && IsGoodBait(bait);
     }
 
     public int GetWaitSecond()

@@ -25,4 +25,9 @@ public struct Weather
 	{
 		get { return _watersVegetables; }
 	}
+
+    public string Name
+    {
+        get { return _name; }
+    }
 }

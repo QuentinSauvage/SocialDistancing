@@ -20,7 +20,7 @@ public class ItemDatabase : ScriptableObject
     {
         try
         {
-            return _database.dictionary[id];
+            return Instantiate(_database.dictionary[id]);
         }catch(KeyNotFoundException)
         {
             return null;

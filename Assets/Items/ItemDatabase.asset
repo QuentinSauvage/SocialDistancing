@@ -21,6 +21,8 @@ MonoBehaviour:
     - bait_squid
     - bait_topwater
     - bait_worm
+    - bonusbait_debug_legend
+    - bonusbait_shrimp
     - fish_alewife
     - fish_arapaima
     - fish_bass
@@ -32,6 +34,7 @@ MonoBehaviour:
     - fish_football
     - fish_goldensalmon
     - fish_goldfish
+    - fish_leviathan
     - fish_perch
     - fish_pike
     - fish_salmon
@@ -41,6 +44,7 @@ MonoBehaviour:
     - fish_tuna
     - fish_turtle
     - fish_whiteshark
+    - fishingrod_rod
     - vegetable_pumpkin
     - vegetable_salad
     values:
@@ -51,6 +55,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 538e1a40cf3f0b845b6a6964fe18ae1c, type: 2}
     - {fileID: 11400000, guid: e166ac86a12808c42b3094cc4d03420c, type: 2}
     - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
+    - {fileID: 11400000, guid: ebcea744401acbb4e9310b0f3f43c48a, type: 2}
+    - {fileID: 11400000, guid: 4d122bcaa897223419ec4fba18abb288, type: 2}
     - {fileID: 11400000, guid: abb26cff612be154a9b5334fdd112cf9, type: 2}
     - {fileID: 11400000, guid: d51e686aeb801a642afd6ff8e89b51ae, type: 2}
     - {fileID: 11400000, guid: 7c15ad6308e7c8840a9d727382e6e5c3, type: 2}
@@ -62,6 +68,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 2e6b92243bfe1694eb2f8f35376ae0f3, type: 2}
     - {fileID: 11400000, guid: 4e0baed6c32447143907c3581cb8f049, type: 2}
     - {fileID: 11400000, guid: 3341e8d2c6689874b9b807b9ac26b45f, type: 2}
+    - {fileID: 11400000, guid: fb8b9d6e1e806e44085baba8972c83c7, type: 2}
     - {fileID: 11400000, guid: f19f12c6e60cba945a570543fe68abd0, type: 2}
     - {fileID: 11400000, guid: 3a94773cf04ca9244b4915930b102ce7, type: 2}
     - {fileID: 11400000, guid: 3c20dbbf985eda0488c92e242151cf3c, type: 2}
@@ -71,5 +78,6 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 638ac4d59bae78d498502bbea0c39beb, type: 2}
     - {fileID: 11400000, guid: e2ca7d8b3fe8bed4f88fda5bd0efdf74, type: 2}
     - {fileID: 11400000, guid: d7c94c41ef2739f448b8c923433bdf5f, type: 2}
+    - {fileID: 11400000, guid: d1fa41d874c01ce4e93edce3f6dca75a, type: 2}
     - {fileID: 11400000, guid: 50331a42a411b1c4ca9920e082423b89, type: 2}
     - {fileID: 11400000, guid: fc5c5ef15921c5c4da61ad9fa234c5bf, type: 2}

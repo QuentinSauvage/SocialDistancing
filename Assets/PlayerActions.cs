@@ -199,7 +199,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""SecondAction"",
                     ""type"": ""Button"",
                     ""id"": ""dbe71c55-5459-45a2-8d5e-66133a0f6cbb"",
                     ""expectedControlType"": """",
@@ -207,7 +207,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""CloseMenu"",
+                    ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""e1e1ea1c-44db-4f78-aa13-ee0053c769ae"",
                     ""expectedControlType"": """",
@@ -215,9 +215,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""SkipTime"",
+                    ""name"": ""CloseMenu"",
                     ""type"": ""Button"",
                     ""id"": ""a1d8099a-56b4-4797-a481-5b8d2c3c3bc4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SkipTime"",
+                    ""type"": ""Button"",
+                    ""id"": ""8122449f-7bf8-4540-9875-a5350acd6e45"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -300,6 +308,17 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                     ""action"": ""SkipTime"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""898948a2-9884-4f56-a2b3-7b474e1afbe0"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SecondAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -316,6 +335,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         // PlayerAction
         m_PlayerAction = asset.FindActionMap("PlayerAction", throwIfNotFound: true);
         m_PlayerAction_DefaultAction = m_PlayerAction.FindAction("DefaultAction", throwIfNotFound: true);
+        m_PlayerAction_SecondAction = m_PlayerAction.FindAction("SecondAction", throwIfNotFound: true);
         m_PlayerAction_Pause = m_PlayerAction.FindAction("Pause", throwIfNotFound: true);
         m_PlayerAction_CloseMenu = m_PlayerAction.FindAction("CloseMenu", throwIfNotFound: true);
         m_PlayerAction_SkipTime = m_PlayerAction.FindAction("SkipTime", throwIfNotFound: true);
@@ -443,6 +463,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_PlayerAction;
     private IPlayerActionActions m_PlayerActionActionsCallbackInterface;
     private readonly InputAction m_PlayerAction_DefaultAction;
+    private readonly InputAction m_PlayerAction_SecondAction;
     private readonly InputAction m_PlayerAction_Pause;
     private readonly InputAction m_PlayerAction_CloseMenu;
     private readonly InputAction m_PlayerAction_SkipTime;
@@ -451,6 +472,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
         private @PlayerActions m_Wrapper;
         public PlayerActionActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @DefaultAction => m_Wrapper.m_PlayerAction_DefaultAction;
+        public InputAction @SecondAction => m_Wrapper.m_PlayerAction_SecondAction;
         public InputAction @Pause => m_Wrapper.m_PlayerAction_Pause;
         public InputAction @CloseMenu => m_Wrapper.m_PlayerAction_CloseMenu;
         public InputAction @SkipTime => m_Wrapper.m_PlayerAction_SkipTime;
@@ -466,6 +488,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
                 @DefaultAction.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnDefaultAction;
+                @SecondAction.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSecondAction;
+                @SecondAction.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSecondAction;
+                @SecondAction.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnSecondAction;
                 @Pause.started -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionActionsCallbackInterface.OnPause;
@@ -482,6 +507,9 @@ public class @PlayerActions : IInputActionCollection, IDisposable
                 @DefaultAction.started += instance.OnDefaultAction;
                 @DefaultAction.performed += instance.OnDefaultAction;
                 @DefaultAction.canceled += instance.OnDefaultAction;
+                @SecondAction.started += instance.OnSecondAction;
+                @SecondAction.performed += instance.OnSecondAction;
+                @SecondAction.canceled += instance.OnSecondAction;
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
@@ -507,6 +535,7 @@ public class @PlayerActions : IInputActionCollection, IDisposable
     public interface IPlayerActionActions
     {
         void OnDefaultAction(InputAction.CallbackContext context);
+        void OnSecondAction(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnCloseMenu(InputAction.CallbackContext context);
         void OnSkipTime(InputAction.CallbackContext context);

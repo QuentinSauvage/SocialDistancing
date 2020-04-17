@@ -17,12 +17,12 @@ public class FishDatabase : ScriptableObject
     /// <param name="hour">hour of the game</param>
     /// <param name="bait">bait used, can be null</param>
     /// <param name="list">lsit to be filled, need to be init but not cleared</param>
-    public void GetPossibleFish(bool isRaining, int hour, Bait bait, List<Fish> list)
+    public void GetPossibleFish(bool isRaining, int hour, Bait bait, BonusBait bonusBait, List<Fish> list)
     {
         list.Clear();
         foreach(Fish fish in _fish)
         {
-            if (fish.CanBeFished(isRaining, bait, hour))
+            if (fish.CanBeFished(isRaining, bait, bonusBait, hour))
                 list.Add(fish);
         }
     }
