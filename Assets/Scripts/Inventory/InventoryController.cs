@@ -350,6 +350,19 @@ public class InventoryController : MonoBehaviour
         _tooltip.gameObject.SetActive(false);
     }
 
+    public void BuyHover(BuyingEntry entry)
+    {
+
+        _tooltip.Item = entry.Item;
+        _tooltip.gameObject.SetActive(true);
+
+    }
+
+    public void BuyStopHover(BuyingEntry entry)
+    {
+        _tooltip.gameObject.SetActive(false);
+    }
+
     void OnEnable()
     {
         _playerActions.Enable();

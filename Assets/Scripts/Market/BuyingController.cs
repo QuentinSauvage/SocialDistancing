@@ -22,6 +22,9 @@ public class BuyingController : MonoBehaviour
             {
                 BuyingSlot slot = Instantiate(_pSlot, _uiContainer).GetComponent<BuyingSlot>();
                 slot.Entry = entry; slot._buyEvent.AddListener(Buy);
+
+                slot._hoverEvent.AddListener(_inventoryController.BuyHover);
+                slot._stopHoverEvent.AddListener(_inventoryController.BuyStopHover);
             }
         }
     }
