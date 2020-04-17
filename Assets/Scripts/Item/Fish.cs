@@ -34,7 +34,7 @@ public class Fish : Salable
     {
         if(_needBait)
         {
-            return bait != null && (_workingBait.Count == 0 || _workingBait.Contains(bait));
+            return bait != null && (_workingBait.Count == 0 || _workingBait.Exists((Bait b)=> { return b.ID == bait.ID; })) ;
         }
         else
         {

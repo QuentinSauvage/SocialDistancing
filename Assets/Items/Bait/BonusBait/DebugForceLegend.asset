@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04727715b1dc16347b4d898ea422874a, type: 3}
+  m_Name: DebugForceLegend
+  m_EditorClassIdentifier: 
+  _name: debug_legend
+  _icon: {fileID: 2849512858085721194, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  _id: bonusbait_debug_legend
+  _bonusPercentWaitTime: 0
+  _bonusIgnoreHour: 0
+  _bonusIgnoreWeather: 0
+  _bonusForceRarity: 1
+  _bonusRarity: 3

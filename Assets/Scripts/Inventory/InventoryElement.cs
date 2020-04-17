@@ -63,7 +63,7 @@ public class InventoryElement
             }
             else
             {
-                if (slot._stack._item == item)
+                if (slot._stack._item.ID == item.ID)
                 {
                     if ((nbItem = slot.AddItemToSlot(nbItem)) == 0) return 0;
                     else continue;
@@ -86,7 +86,7 @@ public class InventoryElement
         {
             if (slot._stack._nbItem != 0)
             {
-                if (slot._stack._item == item)
+                if (slot._stack._item.ID == item.ID)
                 {
                     if ((nbItem = slot.RemoveItemFromSlot(nbItem)) == 0) return 0;
                     else continue;
@@ -105,7 +105,7 @@ public class InventoryElement
     {
         foreach(InventorySlot slot in _slots)
         {
-            if (slot._stack._item == item) return true;
+            if (slot._stack._item.ID == item.ID) return true;
         }
         return false;
     }
@@ -120,7 +120,7 @@ public class InventoryElement
         int nb = 0;
         foreach(InventorySlot slot in _slots)
         {
-            if (slot._stack._item == item) nb += slot._stack._nbItem;
+            if (slot._stack._item.ID == item.ID) nb += slot._stack._nbItem;
         }
         return nb;
     }

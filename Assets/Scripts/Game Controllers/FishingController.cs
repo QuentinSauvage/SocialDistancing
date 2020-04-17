@@ -19,6 +19,9 @@ public class FishingController
     public SuccessEvent _succesEvent;
     public UnityEvent _failEvent;
 
+    [SerializeField] private FishingRodUI _ui;
+    public FishingRodUI UI { get { return _ui; } }
+
     private bool _fishing;
     private bool _hooking;
     private Fish _fish;
@@ -53,9 +56,9 @@ public class FishingController
         _beginEvent.Invoke();
         _fishing = true;
         _fishDatabase.GetPossibleFish(isRainig, hour, bait, bonusBait, _fishList);
+        Debug.Assert(_fishList.Count != 0);
         yield return 0; //wait next frame
         _fish = RandomFish(bonusBait);
-        Debug.Assert(_fish != null);
         float wait = _fish.GetWaitSecond();
         yield return new WaitForSecondsRealtime(wait - (bonusBait!=null?wait*bonusBait.BonusPercentWaitTime:0));
         _hooking = true;
@@ -89,6 +92,16 @@ public class FishingController
             }
             _fish = null; _hooking = false; _fishing = false;
         }
+    }
+
+    public void SecondPressed(GameController gController)
+    {
+        if (gController.GetBarSelectedStack()._nbItem == 0 || gController.GetBarSelectedStack()._item.GetType() != typeof(FishingRod))
+        {
+            return;
+        }
+        FishingRod rod = (FishingRod)gController.GetBarSelectedStack()._item;
+        _ui.Toggle(rod);
     }
 
 }

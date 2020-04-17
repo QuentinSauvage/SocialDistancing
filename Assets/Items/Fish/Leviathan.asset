@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e378618283a392a4e870b4f24614c843, type: 3}
-  m_Name: Crab
+  m_Name: Leviathan
   m_EditorClassIdentifier: 
-  _name: Crab
-  _icon: {fileID: 0}
-  _id: fish_crab
-  price: 600
-  _canBeFishedRaining: 0
+  _name: Leviathan
+  _icon: {fileID: 5887624320373733278, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
+  _id: fish_leviathan
+  price: 0
+  _canBeFishedRaining: 1
   _canBeFishedNotRaining: 1
-  _needBait: 0
-  _workingBait: []
-  _beginHour: 4
-  _endHour: 18
-  _minWaitSecond: 0
-  _maxWaitSecond: 0
-  _hookSecond: 2
-  _rarity: 1
+  _needBait: 1
+  _workingBait:
+  - {fileID: 11400000, guid: fae29f7ac80939348bfa9ad97bd9f8ce, type: 2}
+  _beginHour: 10
+  _endHour: 11
+  _minWaitSecond: 3
+  _maxWaitSecond: 8
+  _hookSecond: 1
+  _rarity: 3

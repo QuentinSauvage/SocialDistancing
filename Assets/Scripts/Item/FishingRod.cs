@@ -7,8 +7,8 @@ public class FishingRod : Item
 {
     //fishing rod bonus ?
 
-    private Bait _bait;
-    private BonusBait _bonusBait;
+    [SerializeField]private Bait _bait;
+    [SerializeField] private BonusBait _bonusBait;
 
     public Bait Bait { get { return _bait; } set { _bait = value; } }
     public BonusBait BonusBait { get { return _bonusBait; } set { _bonusBait = value; } }

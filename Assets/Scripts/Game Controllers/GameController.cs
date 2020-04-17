@@ -53,6 +53,9 @@ public class GameController : MonoBehaviour
         _fishingController._succesEvent.AddListener((Fish fish) => { Debug.Log($"Success fishing the {fish.Name}"); _inventoryController.AddItem(fish, 1); });
         _fishingController._failEvent.AddListener(() => { Debug.Log($"Didn't hook at time or hook to soon"); /**need sad animation and sound**/ });
 
+        //set fishing rod ui event
+        _fishingController.UI.SetOnclick(_inventoryController.SlotClicked);
+
     }
 
     // Update is called once per frame
@@ -91,27 +94,37 @@ public class GameController : MonoBehaviour
 	// Check if the player can interact with the tiles it is facing.
 	// This function will firstly check if the actions that don't require any tool,
 	// then it will check if an action can be done with the item selected in the inventory
-	public void CheckAction(Vector3Int target, RaycastHit2D hit)
+	public void CheckAction(Vector3Int target, RaycastHit2D hit, bool secondAction=false)
 	{
-		_tileManager.CheckAction(target, hit, null);
+		_tileManager.CheckAction(target, hit, null,secondAction);
 		//_tileManager.CheckAction(target, hit, _inventoryController.StackSelected._item) ;
 	}
 
     /// <summary>
     /// Called by TileManagerEvent, manage the fishing actions
     /// </summary>
-    public void FishAction()
+    public void FishAction(bool secondary)
     {
-        _fishingController.ActionPressed(this);
+        if (!secondary)
+            _fishingController.ActionPressed(this);
+        else
+            _fishingController.SecondPressed(this);
     }
 
 	public void OnCloseMenu(InputAction.CallbackContext context)
 	{
+        bool closedSomething = false;
 		if(_inventoryController.Inventory.IsVisible)
 		{
-			_inventoryController.ToggleInventory2();
+            closedSomething = true;
+            _inventoryController.ToggleInventory2();
 		}
-		else
+        if(_fishingController.UI.IsVisible)
+        {
+            closedSomething = true;
+            _fishingController.UI.Toggle(null);
+        }
+		if (!closedSomething)
 		{
 			OnPause2();
 		}

@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions = new PlayerActions();
 		_playerActions.PlayerMovement.Move.performed += ctx => _movementAction = ctx.ReadValue<Vector2>();
 		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
+        _playerActions.PlayerAction.SecondAction.performed += CheckAction;
 		_playerActions.PlayerAction.Pause.performed += _gameController.OnPause;
 		_playerActions.PlayerAction.CloseMenu.performed += _gameController.OnCloseMenu;
 		_playerActions.PlayerAction.SkipTime.started+= _gameController.OnStartSkippingTime;
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
 		Vector3 vv = center + _facingDirection;
 		RaycastHit2D hit = Physics2D.Raycast(center, vv, 1, _layerMask);
 
-		_gameController.CheckAction(target, hit);
+        Debug.Log(context.action.name);
+		_gameController.CheckAction(target, hit, context.action.name== "SecondAction");
 	}
 }
