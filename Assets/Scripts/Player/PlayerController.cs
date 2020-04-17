@@ -77,9 +77,9 @@ public class PlayerController : MonoBehaviour
         float x = _movementAction.x * _speed * Time.deltaTime;
         float y = _movementAction.y * _speed * Time.deltaTime;
         Vector3 move = new Vector3(x, y, 0);
-
+        if (_frozen) move = Vector3.zero;
         // idle
-        if ((y == 0 && x == 0 )|| _frozen)
+        if ((y == 0 && x == 0 )||_frozen)
         {
             if (!_idle)
             {
