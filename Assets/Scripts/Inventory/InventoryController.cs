@@ -160,7 +160,7 @@ public class InventoryController : MonoBehaviour
         _playerActions = new PlayerActions();
         _playerActions.Inventory.MoveBarSelector.performed += UpdateSelectorPosition;
         _playerActions.Inventory.ToggleInventory.performed += ToggleInventory;
-        _playerActions.Inventory.CursorPosition.performed += (InputAction.CallbackContext ctx) => { _tooltip.Postion = ctx.ReadValue<Vector2>(); };
+        _playerActions.Inventory.CursorPosition.performed += (InputAction.CallbackContext ctx) => { _tooltip.Postion = ctx.ReadValue<Vector2>() + new Vector2(3,-3); };
         _playerActions.Inventory.ShowDescritpion.started += (InputAction.CallbackContext ctx) => { _tooltip.ShowDescription(); };
         _playerActions.Inventory.ShowDescritpion.canceled += (InputAction.CallbackContext ctx) => { _tooltip.HideDescription(); };
 
