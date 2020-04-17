@@ -181,7 +181,6 @@ public class InventoryController : MonoBehaviour
         Invoke("UpdateSelectorPosition", Time.fixedDeltaTime);
 		UpdateMouseCursor();
 		_gameController = GameObject.Find("GameController").GetComponent<GameController>();
-		_inventory.IsVisible = false;
 
         Money = 250;
 	}
