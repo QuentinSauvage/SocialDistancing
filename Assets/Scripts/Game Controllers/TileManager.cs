@@ -9,13 +9,14 @@ public class TileManager : MonoBehaviour
 	private List<Tilemap> _tilemaps = new List<Tilemap>();
 	private Dictionary<string, System.Action> _actions = new Dictionary<string, System.Action>();
 
-    public UnityEvent _fishingEvent, _gardentEvent, _openDoorEvent, _readBoardEvent, _chopTreeEvent;
+    public UnityEvent _fishingEvent, _gardentEvent, _openDoorEvent, _readBoardEvent, _chopTreeEvent, _harvestEvent;
 
 	// Start is called before the first frame update
 	void Awake()
 	{
 		_actions["Water"] = DoFishing;
-		_actions["Garden"] = DoGardening;
+		_actions["Garden"] = PlantVegetable;
+		_actions["Vegetable"] = DoHarvest;
 		_actions["Door"] = OpenDoor;
 		_actions["Board"] = ReadBoard;
 		_actions["Tree"] = ChopTree;
@@ -34,6 +35,7 @@ public class TileManager : MonoBehaviour
 			{
 				_actions[hit.transform.gameObject.tag]();
 			}
+			return;
 		}
 		foreach(Tilemap t in _tilemaps)
 		{
@@ -58,10 +60,16 @@ public class TileManager : MonoBehaviour
         _fishingEvent.Invoke();
 	}
 
-	void DoGardening()
+	void PlantVegetable()
 	{
 		Debug.Log("I love vegetables");
         _gardentEvent.Invoke();
+	}
+
+	void DoHarvest()
+	{
+		Debug.Log("Harvest");
+		_harvestEvent.Invoke();
 	}
 
 	void OpenDoor()

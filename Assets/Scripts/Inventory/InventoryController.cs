@@ -198,10 +198,11 @@ public class InventoryController : MonoBehaviour
     /// Remove item from the slot selectionned in the bar. Update the ui. /!\ doesn't test if there is an item in the slot selected.
     /// </summary>
     /// <param name="nbItem">nbItem to be removed</param>
-    public void RemoveItemFromBarSelected(int nbItem)
+    public Item RemoveItemFromBarSelected(int nbItem)
     {
         _bar.Slot(_idSelected).RemoveItemFromSlot(nbItem);
-    }
+		return itemDatabase.GetItemByID(_bar.Slot(_idSelected)._stack._item.ID);
+	}
 
     /// <summary>
     /// Check if the inventory or the bar contains an item

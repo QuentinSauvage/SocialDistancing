@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Board
   - Tree
+  - Vegetable
   layers:
   - Default
   - TransparentFX

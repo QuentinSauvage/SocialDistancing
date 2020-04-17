@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
 		_playerActions.PlayerAction.DefaultAction.performed += CheckAction;
 		_playerActions.PlayerAction.Pause.performed += _gameController.OnPause;
 		_playerActions.PlayerAction.CloseMenu.performed += _gameController.OnCloseMenu;
-		_playerActions.PlayerAction.SkipTime.started+= _gameController.OnStartSkippingTime;
+		_playerActions.PlayerAction.SkipTime.started += _gameController.OnStartSkippingTime;
 		_playerActions.PlayerAction.SkipTime.canceled += _gameController.OnStopSkippingTime;
 		_animator = GetComponent<Animator>();
 

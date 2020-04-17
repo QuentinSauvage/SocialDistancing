@@ -142,7 +142,7 @@ public class TimeManager : MonoBehaviour
 			}
 			_elapsedTime = 0;
 
-			//_gameController.UpdatePlantation(_weathers[_currentWeather].WatersVegetables);
+			_gameController.UpdatePlantation(_weathers[_currentWeather].WatersVegetables);
 
 			UpdateText();
 			UpdateSunLight();

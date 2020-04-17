@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 
-//[RequireComponent(typeof(TimeManager), typeof(GardenManager), typeof(ShopManager))]
+[RequireComponent(typeof(TimeManager), typeof(GardenController), typeof(TileManager))]
 public class GameController : MonoBehaviour
 {
 	PlayerController _playerController;
@@ -16,11 +16,14 @@ public class GameController : MonoBehaviour
     //ShopManager _shopManager;
 
     [SerializeField] FishingController _fishingController;
-	[SerializeField] GardenController _gardenController;
+	GardenController _gardenController;
 
 	public static bool _gamePaused;
 	[SerializeField] GameObject _pauseMenu;
 
+	// Used to know what has been hit by the ray
+	private GameObject _hitObject;
+	[SerializeField] GameObject _vegetablePrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -35,12 +38,16 @@ public class GameController : MonoBehaviour
 			_playerController = player.GetComponent<PlayerController>();
 		}
 
+
 		// Retrieves the inventory controller
 		GameObject inventory = GameObject.Find("Inventory");
 		if (inventory != null)
 		{
 			_inventoryController = inventory.GetComponent<InventoryController>();
 		}
+
+		// Retrieves the garden controller
+		_gardenController = GetComponent<GardenController>();
 
 		// Retrieves the time manager
 		_timeManager = GetComponent<TimeManager>();
@@ -78,6 +85,10 @@ public class GameController : MonoBehaviour
 	// then it will check if an action can be done with the item selected in the inventory
 	public void CheckAction(Vector3Int target, RaycastHit2D hit)
 	{
+		if(hit.collider != null)
+		{
+			_hitObject = hit.transform.gameObject;
+		}
 		_tileManager.CheckAction(target, hit, null);
 		//_tileManager.CheckAction(target, hit, _inventoryController.StackSelected._item) ;
 	}
@@ -89,6 +100,42 @@ public class GameController : MonoBehaviour
     {
         _fishingController.ActionPressed(this);
     }
+
+	/// <summary>
+	/// Called by TileManagerEvent, manage the garden actions
+	/// </summary>
+	public void GardenAction()
+	{
+		Vegetable v = (Vegetable) _inventoryController.StackSelected._item;
+		if(v != null && _inventoryController.StackSelected._nbItem > 0)
+		{
+			GameObject g = Instantiate(_vegetablePrefab, _playerController.transform.position, Quaternion.identity);
+			VegetableObject vo = g.AddComponent<VegetableObject>();
+			Vegetable v2 = (Vegetable) _inventoryController.RemoveItemFromBarSelected(1);
+			vo.Init(v2);
+			_gardenController.AddVegetable(vo);
+		}
+	}
+
+	/// <summary>
+	/// Called by TileManagerEvent, manage the harvest actions
+	/// </summary>
+	public void HarvestAction()
+	{
+		VegetableObject vo = _hitObject.GetComponent<VegetableObject>();
+		int state = vo.CheckHarvest();
+		if (vo != null && (state == 1 || state == -1))
+		{
+			Destroy(_hitObject);
+			_gardenController.RemoveVegetable(vo);
+			Vegetable v = vo.Vegetable;
+
+			if(state == 1)
+			{
+				_inventoryController.AddItem(v, v.Quantity);
+			}
+		}
+	}
 
 	public void OnCloseMenu(InputAction.CallbackContext context)
 	{

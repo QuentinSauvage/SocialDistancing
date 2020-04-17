@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class GardenController : MonoBehaviour
 {
-	List<Vegetable> _vegetables = new List<Vegetable>();
+	[SerializeField] List<VegetableObject> _vegetables = new List<VegetableObject>();
+
 	public void UpdatePlantation(bool raining)
 	{
-		foreach(Vegetable v in _vegetables)
+		foreach(VegetableObject v in _vegetables)
 		{
 			v.UpdateGrowth(raining);
 		}
+	}
+
+	public void AddVegetable(VegetableObject v)
+	{
+		_vegetables.Add(v);
+	}
+
+	public void RemoveVegetable(VegetableObject v)
+	{
+		_vegetables.Remove(v);
 	}
 }

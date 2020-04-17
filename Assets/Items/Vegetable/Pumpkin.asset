@@ -16,3 +16,14 @@ MonoBehaviour:
   _icon: {fileID: 4606331182628343846, guid: c99203a861b2a144590f2817c97b77a7, type: 3}
   _id: vegetable_pumpkin
   price: 10
+  _timeToGrow: 10
+  _timeBeforeWilting: 5
+  _waterTimer: 0
+  _quantity: 1
+  _growthSprites:
+  - {fileID: -5119893442609476536, guid: 3f267d311618ac94496801c9d0c8125f, type: 3}
+  - {fileID: -6177575451595206957, guid: 3f267d311618ac94496801c9d0c8125f, type: 3}
+  - {fileID: 3278829644637341985, guid: 3f267d311618ac94496801c9d0c8125f, type: 3}
+  - {fileID: 7842343618658517417, guid: 3f267d311618ac94496801c9d0c8125f, type: 3}
+  _wiltedSprite: {fileID: 1181448965997768054, guid: 3f267d311618ac94496801c9d0c8125f,
+    type: 3}
