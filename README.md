@@ -1,4 +1,4 @@
-# Social Distancing
+# Social Distancing (2019.4)
 Small game made for the "Easy Jam" - 10/04
 
 ![game](Screenshots/Game.PNG)
